@@ -1,45 +1,42 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { MapPin, Navigation, Settings } from 'lucide-react';
 
-export default function GoSmartHome() {
-  const [fare, setFare] = useState(450);
+export default function Home() {
+  const [distance, setDistance] = useState(5);
+  const fareData = { recommended: 450, minPrice: 400, maxPrice: 550 };
 
   return (
-    <div className="bg-slate-900 min-h-screen text-white p-6 font-sans">
+    <div className="bg-[#1E293B] min-h-screen text-white p-4 font-sans">
       {/* Header */}
-      <header className="flex justify-between items-center mb-8">
-        <h1 className="text-3xl font-bold text-[#4F46E5]">GoSmart</h1>
-        <div className="bg-[#4F46E5] px-4 py-1 rounded-full text-sm">Smart Mode</div>
-      </header>
-
-      {/* Main Card */}
-      <div className="bg-slate-800 rounded-3xl p-6 shadow-xl border border-indigo-500/30">
-        <h2 className="text-xl mb-4">آپ کہاں جانا چاہتے ہیں؟</h2>
-        <input 
-          type="text" 
-          placeholder="منزل تلاش کریں..." 
-          className="w-full p-4 rounded-xl bg-slate-700 border-none focus:ring-2 focus:ring-[#4F46E5] mb-4"
-        />
-        
-        {/* Negotiation Slider */}
-        <div className="mt-6">
-          <label className="block mb-2 text-sm text-gray-400 text-center">کرایہ تجویز کریں (Smart Deal)</label>
-          <input 
-            type="range" min="300" max="600" value={fare} 
-            onChange={(e) => setFare(e.target.value)}
-            className="w-full h-2 bg-slate-600 rounded-lg appearance-none cursor-pointer accent-[#4F46E5]"
-          />
-          <div className="text-center text-4xl font-bold mt-4">Rs. {fare}</div>
-        </div>
-
-        <button className="w-full bg-[#4F46E5] hover:bg-[#4338CA] text-white font-bold py-4 rounded-2xl mt-8 transition-all">
-          بکنگ کنفرم کریں
-        </button>
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-2xl font-black text-[#4F46E5] italic">GoSmart</h1>
+        <Settings className="text-gray-400" />
       </div>
 
-      {/* Driver Info Tag */}
-      <p className="text-center text-xs text-gray-500 mt-6">
-        Fair Price Guarantee • Only 5% Commission
-      </p>
+      {/* Map Placeholder */}
+      <div className="bg-slate-800 w-full h-48 rounded-3xl mb-6 flex items-center justify-center border border-indigo-500/20">
+        <Navigation className="animate-pulse text-[#4F46E5]" size={40} />
+      </div>
+
+      {/* Selection Card */}
+      <div className="bg-slate-900 rounded-t-[40px] p-8 fixed bottom-0 left-0 right-0 border-t border-indigo-500/30">
+        <div className="flex items-center gap-3 bg-slate-800 p-4 rounded-2xl mb-4">
+          <MapPin className="text-red-500" />
+          <input type="text" placeholder="منزل کہاں ہے؟" className="bg-transparent border-none focus:ring-0 w-full" />
+        </div>
+
+        <div className="text-center my-6">
+          <p className="text-gray-400 text-sm mb-2">منصفانہ کرایہ (Smart Deal)</p>
+          <h2 className="text-5xl font-bold text-[#4F46E5]">Rs. {fareData.recommended}</h2>
+        </div>
+
+        <div className="flex gap-4">
+          <button className="flex-1 bg-slate-700 p-4 rounded-2xl font-bold">کرایہ کم کریں</button>
+          <button className="flex-[2] bg-[#4F46E5] p-4 rounded-2xl font-bold shadow-lg shadow-indigo-500/40">
+            بکنگ کریں
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
