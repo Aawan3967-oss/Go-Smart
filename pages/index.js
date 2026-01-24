@@ -6,7 +6,7 @@ export default function GoSmartApp() {
   const [fare, setFare] = useState(0);
 
   // آپ کا فراہم کردہ لوگو پاتھ
-  const logoPath = "/A_logo_for_GoSmart_is_displayed_with_an_icon_abo.png"; 
+  const logoPath = "/https://www.facebook.com/share/1Aj62NFQ6n/"; 
 
   return (
     <div className="app-container" dir="rtl">
