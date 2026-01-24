@@ -1,78 +1,187 @@
 import React, { useState, useEffect } from 'react';
-import { MapPin, Navigation, Globe, CreditCard, Users, ShieldCheck } from 'lucide-react';
+import { MapPin, Navigation, Star, CreditCard, Users, ShieldCheck } from 'lucide-react';
 
-export default function GoSmartApp() {
+export default function GoSmartAllInOne() {
   const [view, setView] = useState('rider'); 
-  const [lang, setLang] = useState('ur');
   const [fare, setFare] = useState(0);
 
-  const content = {
-    ur: { rider: "سواری", driver: "ڈرائیور", admin: "ایڈمن", placeholder: "آپ کی منزل کیا ہے؟", book: "بکنگ کریں", commission: "آج کا کل کمیشن", active: "ایکٹو ڈرائیورز", status: "سسٹم مانیٹرنگ: نارمل" },
-    en: { rider: "Rider", driver: "Driver", admin: "Admin", placeholder: "Where to?", book: "Confirm Booking", commission: "Total Commission", active: "Active Drivers", status: "System: Normal" }
-  };
-
-  const t = content[lang];
-
   return (
-    <div className="min-h-screen bg-[#0F172A] text-white" dir={lang === 'ur' ? 'rtl' : 'ltr'}>
-      {/* نوری نستعلیق فونٹ لوڈر */}
+    <div className="main-container" dir="rtl">
+      {/* 🎨 تمام اسٹائلز اب اسی فائل کے اندر ہیں */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
-        * { font-family: ${lang === 'ur' ? "'Noto Nastaliq Urdu', serif" : "ui-sans-serif, system-ui"}; }
-        .urdu-text { line-height: 2.5; }
+        
+        :root {
+          --indigo: #4F46E5;
+          --bg-dark: #0F172A;
+          --card-bg: #1E293B;
+        }
+
+        body {
+          margin: 0;
+          padding: 0;
+          background-color: var(--bg-dark);
+          color: white;
+          font-family: 'Noto Nastaliq Urdu', serif;
+          line-height: 2.2;
+        }
+
+        .main-container { min-h-screen; }
+        
+        .nav-bar {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 1rem;
+          background: var(--card-bg);
+          border-bottom: 1px solid rgba(79, 70, 229, 0.3);
+          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-box {
+          background: var(--indigo);
+          padding: 8px;
+          border-radius: 12px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+        }
+
+        .logo-text h1 {
+          margin: 0;
+          font-size: 24px;
+          color: var(--indigo);
+          font-style: italic;
+          font-weight: 900;
+          line-height: 1;
+        }
+
+        .view-switcher {
+          background: #0F172A;
+          padding: 4px;
+          border-radius: 16px;
+          display: flex;
+          gap: 5px;
+        }
+
+        .btn-tab {
+          padding: 8px 16px;
+          border-radius: 12px;
+          border: none;
+          color: #64748b;
+          background: transparent;
+          cursor: pointer;
+          font-weight: bold;
+          font-size: 12px;
+          transition: 0.3s;
+        }
+
+        .btn-active {
+          background: var(--indigo);
+          color: white;
+          box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .card {
+          background: rgba(30, 41, 59, 0.8);
+          border: 1px solid rgba(79, 70, 229, 0.2);
+          border-radius: 40px;
+          padding: 2rem;
+          margin-top: 20px;
+          backdrop-filter: blur(10px);
+        }
+
+        .input-group {
+          background: #0F172A;
+          border-radius: 20px;
+          padding: 10px 15px;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          border: 1px solid #334155;
+        }
+
+        input {
+          background: transparent;
+          border: none;
+          color: white;
+          outline: none;
+          width: 100%;
+          font-size: 14px;
+        }
+
+        .fare-display {
+          font-size: 50px;
+          font-weight: 900;
+          color: var(--indigo);
+          margin: 20px 0;
+          text-align: center;
+        }
+
+        .btn-main {
+          width: 100%;
+          background: var(--indigo);
+          padding: 18px;
+          border-radius: 25px;
+          border: none;
+          color: white;
+          font-weight: bold;
+          font-size: 18px;
+          box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
+          cursor: pointer;
+        }
       `}</style>
 
-      {/* خوبصورت نیویگیشن بار (لوگو کے ساتھ) */}
-      <nav className="p-4 flex justify-between items-center bg-[#1E293B] border-b border-indigo-500/30 sticky top-0 z-50 shadow-lg">
-        <div className="flex items-center gap-2">
-           <div className="bg-indigo-500 p-2 rounded-xl shadow-lg shadow-indigo-500/50">
-              <Navigation size={22} className="text-white" />
+      {/* 🏗 ہیڈر اور لوگو */}
+      <nav className="nav-bar">
+        <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
+           <div className="logo-box">
+              <Navigation size={22} color="white" fill="white" />
            </div>
-           <h1 className="text-2xl font-black text-indigo-500 italic tracking-tighter">GoSmart</h1>
+           <div className="logo-text">
+              <h1>GoSmart</h1>
+           </div>
         </div>
         
-        <div className="flex items-center gap-2 bg-slate-900 p-1 rounded-2xl border border-slate-700">
-          <button onClick={() => setView('rider')} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${view === 'rider' ? 'bg-indigo-500 shadow-md scale-105' : 'text-gray-500'}`}>{t.rider}</button>
-          <button onClick={() => setView('driver')} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${view === 'driver' ? 'bg-indigo-500 shadow-md scale-105' : 'text-gray-500'}`}>{t.driver}</button>
-          <button onClick={() => setView('admin')} className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${view === 'admin' ? 'bg-red-600 shadow-md scale-105' : 'text-gray-500'}`}>{t.admin}</button>
+        <div className="view-switcher">
+          <button onClick={() => setView('rider')} className={`btn-tab ${view === 'rider' ? 'btn-active' : ''}`}>سواری</button>
+          <button onClick={() => setView('driver')} className={`btn-tab ${view === 'driver' ? 'btn-active' : ''}`}>ڈرائیور</button>
         </div>
       </nav>
 
-      <main className="p-6 max-w-md mx-auto urdu-text">
-        {view === 'rider' && (
-          <div className="bg-slate-800/80 p-8 rounded-[2.5rem] border border-indigo-500/20 backdrop-blur-xl shadow-2xl mt-4">
-             <div className="flex items-center gap-3 mb-8 bg-[#0F172A] p-4 rounded-2xl border border-slate-700 focus-within:border-indigo-500 transition-all">
-                <MapPin className="text-red-500" />
-                <input 
-                  onChange={(e) => setFare(450)}
-                  type="text" placeholder={t.placeholder} 
-                  className="bg-transparent border-none outline-none w-full text-sm text-white"
-                />
+      {/* 📱 مین مواد */}
+      <main style={{padding: '20px', maxWidth: '450px', margin: '0 auto'}}>
+        {view === 'rider' ? (
+          <div className="card">
+            <div className="input-group">
+              <MapPin size={20} color="#ef4444" />
+              <input 
+                type="text" 
+                placeholder="آپ کی منزل کہاں ہے؟" 
+                onChange={() => setFare(480)}
+              />
+            </div>
+            {fare > 0 && (
+              <div style={{textAlign: 'center', marginTop: '30px'}}>
+                <p style={{fontSize: '12px', color: '#818cf8', margin: 0}}>تجویز کردہ کرایہ</p>
+                <div className="fare-display">Rs. {fare}</div>
+                <button className="btn-main">ابھی سواری تلاش کریں</button>
               </div>
-              
-              {fare > 0 && (
-                <div className="text-center animate-pulse">
-                  <div className="text-5xl font-black text-indigo-400 my-4">Rs. {fare}</div>
-                  <button className="w-full bg-indigo-500 hover:bg-indigo-600 py-5 rounded-[1.5rem] font-bold text-lg shadow-lg shadow-indigo-500/30 transition-all active:scale-95">
-                    {t.book}
-                  </button>
-                </div>
-              )}
+            )}
           </div>
-        )}
-
-        {view === 'admin' && (
-          <div className="space-y-4 mt-4">
-            <div className="bg-slate-800 p-6 rounded-3xl border border-slate-700 flex items-center gap-4 shadow-xl">
-              <div className="bg-indigo-500/20 p-4 rounded-2xl text-indigo-500"><CreditCard /></div>
-              <div><p className="text-xs text-gray-400">{t.commission}</p><h3 className="text-2xl font-black italic">Rs. 8,420</h3></div>
-            </div>
-            <div className="bg-slate-800 p-6 rounded-3xl border border-slate-700 flex items-center gap-4 shadow-xl">
-              <div className="bg-green-500/20 p-4 rounded-2xl text-green-500"><Users /></div>
-              <div><p className="text-xs text-gray-400">{t.active}</p><h3 className="text-2xl font-black italic">142</h3></div>
-            </div>
-            <div className="flex items-center justify-center gap-2 text-[10px] text-red-400 bg-red-500/5 p-4 rounded-2xl">
-               <ShieldCheck size={14} /> <span>{t.status}</span>
+        ) : (
+          <div style={{marginTop: '20px'}}>
+            <div className="card" style={{borderRadius: '30px', padding: '1.5rem'}}>
+               <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#94a3b8'}}>
+                  <span>قریبی سواری (1.2 کلومیٹر)</span>
+                  <span style={{color: '#22c55e'}}>● آن لائن</span>
+               </div>
+               <h3 style={{margin: '15px 0'}}>گلبرگ 3 سے ڈی ایچ اے لاہور</h3>
+               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
+                  <div style={{fontSize: '28px', fontWeight: 'bold', color: '#818cf8'}}>Rs. 650</div>
+                  <button className="btn-tab btn-active" style={{fontSize: '14px', padding: '10px 20px'}}>قبول کریں</button>
+               </div>
             </div>
           </div>
         )}
