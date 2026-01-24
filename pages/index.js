@@ -1,188 +1,152 @@
-import React, { useState, useEffect } from 'react';
-import { MapPin, Navigation, Star, CreditCard, Users, ShieldCheck } from 'lucide-react';
+import React, { useState } from 'react';
+import { MapPin, Globe, CreditCard, Users, ShieldCheck, Star } from 'lucide-react';
 
-export default function GoSmartAllInOne() {
+export default function GoSmartApp() {
   const [view, setView] = useState('rider'); 
   const [fare, setFare] = useState(0);
 
   return (
     <div className="main-container" dir="rtl">
-      {/* 🎨 تمام اسٹائلز اب اسی فائل کے اندر ہیں */}
       <style jsx global>{`
         @import url('https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;700&display=swap');
         
         :root {
-          --indigo: #4F46E5;
+          --go-green: #22c55e;
+          --go-blue: #3b82f6;
+          --go-yellow: #eab308;
           --bg-dark: #0F172A;
-          --card-bg: #1E293B;
         }
 
         body {
           margin: 0;
-          padding: 0;
           background-color: var(--bg-dark);
           color: white;
           font-family: 'Noto Nastaliq Urdu', serif;
-          line-height: 2.2;
         }
 
-        .main-container { min-h-screen; }
-        
-        .nav-bar {
+        /* جدید لوگو اسٹائل */
+        .logo-container {
           display: flex;
-          justify-content: space-between;
+          flex-direction: column;
           align-items: center;
-          padding: 1rem;
-          background: var(--card-bg);
-          border-bottom: 1px solid rgba(79, 70, 229, 0.3);
-          box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+          padding: 15px 0;
         }
 
-        .logo-box {
-          background: var(--indigo);
-          padding: 8px;
-          border-radius: 12px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          box-shadow: 0 0 20px rgba(79, 70, 229, 0.4);
+        .logo-svg {
+          width: 80px;
+          height: 80px;
+          filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.4));
         }
 
-        .logo-text h1 {
-          margin: 0;
-          font-size: 24px;
-          color: var(--indigo);
-          font-style: italic;
+        .brand-name {
+          font-size: 32px;
           font-weight: 900;
-          line-height: 1;
+          margin-top: -10px;
+          background: linear-gradient(to right, #22c55e, #3b82f6);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          font-style: italic;
         }
 
+        /* ہائی لائٹر بٹنز */
         .view-switcher {
-          background: #0F172A;
-          padding: 4px;
-          border-radius: 16px;
           display: flex;
-          gap: 5px;
+          gap: 10px;
+          justify-content: center;
+          margin-bottom: 20px;
         }
 
-        .btn-tab {
-          padding: 8px 16px;
-          border-radius: 12px;
-          border: none;
-          color: #64748b;
-          background: transparent;
-          cursor: pointer;
+        .tab-btn {
+          padding: 10px 25px;
+          border-radius: 50px;
+          border: 2px solid transparent;
           font-weight: bold;
-          font-size: 12px;
+          cursor: pointer;
           transition: 0.3s;
+          background: #1e293b;
+          color: #94a3b8;
         }
 
-        .btn-active {
-          background: var(--indigo);
+        .tab-btn.active {
+          background: var(--go-green);
           color: white;
-          box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+          box-shadow: 0 0 20px rgba(34, 197, 94, 0.5);
+          border-color: #4ade80;
+          transform: scale(1.05);
         }
 
         .card {
-          background: rgba(30, 41, 59, 0.8);
-          border: 1px solid rgba(79, 70, 229, 0.2);
-          border-radius: 40px;
-          padding: 2rem;
-          margin-top: 20px;
-          backdrop-filter: blur(10px);
+          background: rgba(30, 41, 59, 0.7);
+          border: 1px solid rgba(255, 255, 255, 0.1);
+          border-radius: 30px;
+          padding: 25px;
+          backdrop-filter: blur(15px);
+          box-shadow: 0 20px 50px rgba(0,0,0,0.3);
         }
 
-        .input-group {
-          background: #0F172A;
-          border-radius: 20px;
-          padding: 10px 15px;
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          border: 1px solid #334155;
+        .highlight-input {
+          border: 2px solid #334155;
+          transition: 0.3s;
         }
 
-        input {
-          background: transparent;
-          border: none;
-          color: white;
-          outline: none;
-          width: 100%;
-          font-size: 14px;
-        }
-
-        .fare-display {
-          font-size: 50px;
-          font-weight: 900;
-          color: var(--indigo);
-          margin: 20px 0;
-          text-align: center;
-        }
-
-        .btn-main {
-          width: 100%;
-          background: var(--indigo);
-          padding: 18px;
-          border-radius: 25px;
-          border: none;
-          color: white;
-          font-weight: bold;
-          font-size: 18px;
-          box-shadow: 0 10px 20px rgba(79, 70, 229, 0.3);
-          cursor: pointer;
+        .highlight-input:focus-within {
+          border-color: var(--go-blue);
+          box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
         }
       `}</style>
 
-      {/* 🏗 ہیڈر اور لوگو */}
-      <nav className="nav-bar">
-        <div style={{display: 'flex', alignItems: 'center', gap: '10px'}}>
-           <div className="logo-box">
-              <Navigation size={22} color="white" fill="white" />
-           </div>
-           <div className="logo-text">
-              <h1>GoSmart</h1>
-           </div>
-        </div>
-        
-        <div className="view-switcher">
-          <button onClick={() => setView('rider')} className={`btn-tab ${view === 'rider' ? 'btn-active' : ''}`}>سواری</button>
-          <button onClick={() => setView('driver')} className={`btn-tab ${view === 'driver' ? 'btn-active' : ''}`}>ڈرائیور</button>
-        </div>
-      </nav>
+      {/* 🚀 ایپ ہیڈر اور لوگو */}
+      <header className="logo-container">
+        <svg className="logo-svg" viewBox="0 0 100 100">
+          {/* لوکیشن پن */}
+          <path d="M50 5 C30 5 15 20 15 40 C15 65 50 95 50 95 C50 95 85 65 85 40 C85 20 70 5 50 5 Z" fill="#22c55e" />
+          {/* کار کا خاکہ */}
+          <path d="M35 45 L65 45 L62 38 C61 36 59 35 57 35 L43 35 C41 35 39 36 38 38 Z M32 45 C30 45 28 47 28 49 L28 55 C28 56 29 57 30 57 L70 57 C71 57 72 56 72 55 L72 49 C72 47 70 45 68 45 Z" fill="white" />
+          {/* سوئش لہریں */}
+          <path d="M20 75 Q50 60 80 75" stroke="#eab308" strokeWidth="4" fill="none" strokeLinecap="round" />
+          <path d="M25 82 Q50 67 75 82" stroke="#3b82f6" strokeWidth="4" fill="none" strokeLinecap="round" />
+        </svg>
+        <h1 className="brand-name">GoSmart</h1>
+      </header>
 
-      {/* 📱 مین مواد */}
-      <main style={{padding: '20px', maxWidth: '450px', margin: '0 auto'}}>
+      <main style={{padding: '0 20px', maxWidth: '450px', margin: '0 auto'}}>
+        {/* ویو سوئچر */}
+        <div className="view-switcher">
+          <button onClick={() => setView('rider')} className={`tab-btn ${view === 'rider' ? 'active' : ''}`}>سواری</button>
+          <button onClick={() => setView('driver')} className={`tab-btn ${view === 'driver' ? 'active' : ''}`}>ڈرائیور</button>
+        </div>
+
         {view === 'rider' ? (
-          <div className="card">
-            <div className="input-group">
-              <MapPin size={20} color="#ef4444" />
+          <div className="card animate-in fade-in">
+            <div className="highlight-input" style={{display:'flex', alignItems:'center', gap:'10px', padding:'12px', borderRadius:'15px', background:'#0F172A'}}>
+              <MapPin color="#ef4444" size={20} />
               <input 
                 type="text" 
                 placeholder="آپ کی منزل کہاں ہے؟" 
-                onChange={() => setFare(480)}
+                style={{background:'none', border:'none', color:'white', outline:'none', width:'100%'}}
+                onChange={() => setFare(520)}
               />
             </div>
+            
             {fare > 0 && (
-              <div style={{textAlign: 'center', marginTop: '30px'}}>
-                <p style={{fontSize: '12px', color: '#818cf8', margin: 0}}>تجویز کردہ کرایہ</p>
-                <div className="fare-display">Rs. {fare}</div>
-                <button className="btn-main">ابھی سواری تلاش کریں</button>
+              <div style={{textAlign:'center', marginTop:'30px'}}>
+                <div style={{fontSize:'55px', fontWeight:'900', color:'white', textShadow:'0 0 20px rgba(34,197,94,0.3)'}}>Rs. {fare}</div>
+                <button style={{width:'100%', padding:'18px', background:'var(--go-green)', border:'none', borderRadius:'20px', color:'white', fontWeight:'bold', fontSize:'18px', boxShadow:'0 10px 20px rgba(34,197,94,0.3)'}}>
+                  ابھی بک کریں
+                </button>
               </div>
             )}
           </div>
         ) : (
-          <div style={{marginTop: '20px'}}>
-            <div className="card" style={{borderRadius: '30px', padding: '1.5rem'}}>
-               <div style={{display: 'flex', justifyContent: 'space-between', fontSize: '10px', color: '#94a3b8'}}>
-                  <span>قریبی سواری (1.2 کلومیٹر)</span>
-                  <span style={{color: '#22c55e'}}>● آن لائن</span>
-               </div>
-               <h3 style={{margin: '15px 0'}}>گلبرگ 3 سے ڈی ایچ اے لاہور</h3>
-               <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center'}}>
-                  <div style={{fontSize: '28px', fontWeight: 'bold', color: '#818cf8'}}>Rs. 650</div>
-                  <button className="btn-tab btn-active" style={{fontSize: '14px', padding: '10px 20px'}}>قبول کریں</button>
-               </div>
-            </div>
+          <div className="card">
+             <div style={{borderRight:'4px solid #3b82f6', paddingRight:'15px'}}>
+                <p style={{fontSize:'12px', color:'#94a3b8', margin:0}}>نئی درخواست موصول ہوئی</p>
+                <h3 style={{margin:'10px 0'}}>گلبرگ سے علامہ اقبال ٹاؤن</h3>
+                <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginTop:'20px'}}>
+                   <span style={{fontSize:'24px', fontWeight:'bold', color:'#22c55e'}}>Rs. 740</span>
+                   <button className="tab-btn active">قبول کریں</button>
+                </div>
+             </div>
           </div>
         )}
       </main>
