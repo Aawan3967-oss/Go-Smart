@@ -2,11 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { 
   Navigation, MapPin, Phone, MessageSquare, AlertCircle, Ticket, CreditCard, 
-  User, Trophy, Plane, Menu, Bell, Car, DollarSign, Shield, ArrowLeft, Truck, Map, History, X, Globe, Bike, FileText, Activity, Search
+  User, Trophy, Plane, Menu, Bell, Car, DollarSign, Shield, ArrowLeft, Truck, Map, History, X, Globe, Bike, FileText, Activity, Search, CheckCircle, Smartphone
 } from 'lucide-react';
 
 export default function GoSmartApp() {
-  // --- [1] تمام اسٹیٹس (ALL STATES) ---
+  // --------------------------------------------------------
+  // 1. تمام اسٹیٹس (STATES) - ایک ایک فیچر کے لیے الگ اسٹیٹ
+  // --------------------------------------------------------
   const [currentScreen, setCurrentScreen] = useState('splash');
   const [appMode, setAppMode] = useState('rider'); 
   const [fare, setFare] = useState(0);
@@ -17,198 +19,517 @@ export default function GoSmartApp() {
   const [selectedVehicle, setSelectedVehicle] = useState('bike');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [externalUrl, setExternalUrl] = useState(null);
+  
+  // سیکیورٹی ڈیٹا اسٹیٹس
+  const [driverName, setDriverName] = useState("");
+  const [cnic, setCnic] = useState("");
+  const [vehicleNo, setVehicleNo] = useState("");
+  const [homeAddress, setHomeAddress] = useState("");
+  const [emergencyPhone, setEmergencyPhone] = useState("");
 
-  // --- [2] لاجک اور سیکیورٹی مانیٹرنگ ---
+  // --------------------------------------------------------
+  // 2. ٹائمرز اور لاجک (LOGIC)
+  // --------------------------------------------------------
   useEffect(() => {
     if (currentScreen === 'splash') {
-      setTimeout(() => setCurrentScreen('registration'), 2500);
+      const timer = setTimeout(() => setCurrentScreen('registration'), 3000);
+      return () => clearTimeout(timer);
     }
   }, [currentScreen]);
 
-  // --- [3] سی ایس ایس (COMPLETE INDIGO THEME) ---
+  // --------------------------------------------------------
+  // 3. ڈیزائن اور تھیم (CSS)
+  // --------------------------------------------------------
   const globalStyles = (
     <style jsx global>{`
-      :root { --indigo: #1a1c2c; --card-bg: #282a44; --accent: #3f51b5; --green: #22c55e; --red: #ef4444; --text-muted: #94a3b8; }
-      body { margin: 0; background-color: var(--indigo); color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; overflow-x: hidden; }
-      .mobile-frame { max-width: 450px; margin: 0 auto; min-height: 100vh; position: relative; }
-      .indigo-card { background: var(--card-bg); border: 1px solid #3f4264; border-radius: 20px; padding: 20px; margin-bottom: 15px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
-      .input-field { background: #212339; border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 12px; margin-bottom: 12px; border: 1px solid #3f4264; }
-      .input-field input, .input-field select { background: none; border: none; color: white; width: 100%; outline: none; font-size: 15px; }
-      .primary-btn { background: var(--green); color: white; border: none; padding: 16px; border-radius: 15px; width: 100%; font-weight: bold; cursor: pointer; transition: 0.3s; }
-      .primary-btn:active { transform: scale(0.97); }
-      
-      /* نیوز ٹکر */
-      .news-ticker { white-space: nowrap; overflow: hidden; background: #212339; padding: 10px 0; border-top: 1px solid var(--accent); border-bottom: 1px solid var(--accent); margin: 15px 0; }
-      .news-ticker p { display: inline-block; padding-left: 100%; animation: ticker 25s linear infinite; margin: 0; color: #fbbf24; font-size: 13px; }
-      @keyframes ticker { 0% { transform: translate(0, 0); } 100% { transform: translate(-100%, 0); } }
-
-      /* سائیڈ مینو */
-      .side-menu { position: fixed; top: 0; left: ${isMenuOpen ? '0' : '-100%'}; width: 85%; height: 100%; background: var(--indigo); z-index: 2000; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); padding: 30px; box-shadow: 10px 0 40px rgba(0,0,0,0.8); }
-      .menu-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); z-index: 1999; display: ${isMenuOpen ? 'block' : 'none'}; }
-      .menu-link { display: flex; align-items: center; gap: 15px; padding: 15px 0; border-bottom: 1px solid #282a44; cursor: pointer; color: white; text-decoration: none; }
-      
-      .blink { animation: pulse 1.5s infinite; }
-      @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+      :root { 
+        --indigo: #1a1c2c; 
+        --card-bg: #282a44; 
+        --accent: #3f51b5; 
+        --green: #22c55e; 
+        --red: #ef4444; 
+        --text-muted: #94a3b8; 
+      }
+      body { 
+        margin: 0; 
+        background-color: var(--indigo); 
+        color: white; 
+        font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+        overflow-x: hidden; 
+      }
+      .mobile-frame { 
+        max-width: 450px; 
+        margin: 0 auto; 
+        min-height: 100vh; 
+        position: relative; 
+        background-color: var(--indigo);
+      }
+      .indigo-card { 
+        background: var(--card-bg); 
+        border: 1px solid #3f4264; 
+        border-radius: 20px; 
+        padding: 20px; 
+        margin-bottom: 15px; 
+        transition: all 0.3s ease;
+      }
+      .input-field { 
+        background: #212339; 
+        border-radius: 12px; 
+        padding: 15px; 
+        display: flex; 
+        align-items: center; 
+        gap: 12px; 
+        margin-bottom: 15px; 
+        border: 1px solid #3f4264; 
+      }
+      .input-field input, .input-field select { 
+        background: none; 
+        border: none; 
+        color: white; 
+        width: 100%; 
+        outline: none; 
+        font-size: 16px;
+      }
+      .primary-btn { 
+        background: var(--green); 
+        color: white; 
+        border: none; 
+        padding: 18px; 
+        border-radius: 15px; 
+        width: 100%; 
+        font-weight: bold; 
+        font-size: 16px;
+        cursor: pointer; 
+        box-shadow: 0 4px 15px rgba(34, 197, 94, 0.3);
+      }
+      .news-ticker { 
+        white-space: nowrap; 
+        overflow: hidden; 
+        background: #212339; 
+        padding: 12px 0; 
+        border-top: 2px solid var(--accent); 
+        border-bottom: 1px solid #3f4264;
+        margin: 15px 0; 
+      }
+      .news-ticker p { 
+        display: inline-block; 
+        padding-left: 100%; 
+        animation: ticker 30s linear infinite; 
+        margin: 0; 
+        color: #fbbf24; 
+        font-weight: 500;
+      }
+      @keyframes ticker { 
+        0% { transform: translate(0, 0); } 
+        100% { transform: translate(-100%, 0); } 
+      }
+      .side-menu { 
+        position: fixed; 
+        top: 0; 
+        left: ${isMenuOpen ? '0' : '-100%'}; 
+        width: 85%; 
+        height: 100%; 
+        background: var(--indigo); 
+        z-index: 2000; 
+        transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); 
+        padding: 30px; 
+        box-shadow: 15px 0 50px rgba(0,0,0,0.8); 
+      }
+      .blink { animation: pulse 2s infinite; }
+      @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     `}</style>
   );
 
   return (
     <div className="mobile-frame">
-      <Head><title>GoSmart - Ultimate App</title></Head>
+      <Head>
+        <title>GoSmart Super App - Secure Rides & Tickets</title>
+      </Head>
       {globalStyles}
 
-      {/* --- [A] سائیڈ مینو اور مینیو آپریشنز --- */}
-      <div className="menu-overlay" onClick={() => setIsMenuOpen(false)}></div>
+      {/* --- [A] مینیو اوورلے (Overlay) --- */}
+      {isMenuOpen && (
+        <div 
+          style={{position:'fixed', inset:0, background:'rgba(0,0,0,0.8)', zIndex:1999}} 
+          onClick={()=>setIsMenuOpen(false)}
+        ></div>
+      )}
+      
+      {/* --- [B] تفصیلی سائیڈ مینو (Full Operations List) --- */}
       <div className="side-menu">
-        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'40px'}}>
-           <img src="/IMG_20260124_084929.JPG" style={{width:'60px', borderRadius:'15px'}} />
-           <X onClick={() => setIsMenuOpen(false)} style={{cursor:'pointer'}} />
+        <div style={{display:'flex', justifyContent:'space-between', alignItems:'center', marginBottom:'40px', borderBottom:'1px solid #3f4264', paddingBottom:'20px'}}>
+           <div style={{display:'flex', alignItems:'center', gap:'10px'}}>
+             <img src="/IMG_20260124_084929.JPG" style={{width:'50px', borderRadius:'12px'}} />
+             <span style={{fontWeight:'bold', color:'var(--green)'}}>GOSMART MENU</span>
+           </div>
+           <X onClick={()=>setIsMenuOpen(false)} style={{cursor:'pointer'}} />
         </div>
-        <div className="menu-link" onClick={() => {setExternalUrl('https://www.icc-cricket.com/live-scores'); setIsMenuOpen(false);}}>
-           <Activity color="var(--green)" /> <span>ICC لائیو اسکور</span>
-        </div>
-        <div className="menu-link" onClick={() => {setCurrentScreen('tickets'); setIsMenuOpen(false);}}>
-           <Ticket color="var(--accent)" /> <span>گلوبل ٹکٹس</span>
-        </div>
-        <div className="menu-link" onClick={() => {setCurrentScreen('admin'); setIsMenuOpen(false);}}>
-           <DollarSign color="#fbbf24" /> <span>ایڈمن کنٹرول</span>
-        </div>
-        <div className="menu-link" onClick={() => {setIsMenuOpen(false); alert("شرائط: 1.5% کمیشن لاگو ہوگا۔ تمام رائیڈز سیکیورٹی مانیٹرنگ میں ہیں۔")}}>
-           <FileText color="var(--text-muted)" /> <span>ٹرمز اینڈ کنڈیشنز</span>
-        </div>
-        <div className="menu-link" style={{marginTop:'auto', border:'none'}} onClick={() => setCurrentScreen('registration')}>
-           <Shield color="var(--red)" /> <span>سیکیورٹی لاگ آؤٹ</span>
+
+        <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
+           {/* مینو آئٹمز */}
+           <div className="input-field" onClick={()=>{setExternalUrl('https://www.icc-cricket.com/live-scores'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
+              <Activity color="var(--green)" size={20}/> <span>ICC لائیو اسکور</span>
+           </div>
+           
+           <div className="input-field" onClick={()=>{setCurrentScreen('home'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
+              <Smartphone size={20}/> <span>ہوم اسکرین</span>
+           </div>
+
+           <div className="input-field" onClick={()=>{setCurrentScreen('tickets'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
+              <Ticket size={20}/> <span>گلوبل ٹکٹس بکنگ</span>
+           </div>
+
+           <div className="input-field" onClick={()=>{setCurrentScreen('admin'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
+              <DollarSign color="#fbbf24" size={20}/> <span>ایڈمن پینل کنٹرول</span>
+           </div>
+
+           <div className="input-field" onClick={()=>{alert("سیکیورٹی ٹرمز: آپ کا ڈیٹا محفوظ ہے۔ 1.5% کمیشن لاگو ہوگا۔"); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
+              <FileText size={20}/> <span>اصول و ضوابط (T&C)</span>
+           </div>
+
+           <div className="input-field" style={{cursor:'pointer', border:'none', marginTop:'20px'}}>
+              <Shield color="var(--red)" size={20}/> <span>ایمرجنسی لاگز</span>
+           </div>
         </div>
       </div>
 
-      {/* --- [B] ان-ایپ براؤزر (Browser Back Option) --- */}
+      {/* --- [C] ان-ایپ براؤزر مع واپسی کنٹرول --- */}
       {externalUrl && (
         <div style={{position:'fixed', top:0, left:0, width:'100%', height:'100%', zIndex:3000, background:'white'}}>
-          <div style={{background: 'var(--indigo)', padding:'15px', display:'flex', alignItems:'center', gap:'15px'}}>
+          <div style={{background: 'var(--indigo)', padding:'15px', display:'flex', alignItems:'center', gap:'20px', borderBottom:'3px solid var(--accent)'}}>
             <ArrowLeft onClick={() => setExternalUrl(null)} color="white" style={{cursor:'pointer'}} />
-            <span style={{color:'white', fontWeight:'bold'}}>GoSmart Safe Gateway</span>
+            <span style={{color:'white', fontWeight:'bold', fontSize:'18px'}}>GoSmart Safe Web</span>
           </div>
-          <iframe src={externalUrl} style={{width:'100%', height:'93%', border:'none'}}></iframe>
+          <iframe 
+            src={externalUrl} 
+            style={{width:'100%', height:'calc(100% - 60px)', border:'none'}}
+            title="External Content"
+          ></iframe>
         </div>
       )}
 
-      {/* --- [SECTION 1] اسپلش اسکرین --- */}
+      {/* --- [SECTION 1] تفصیلی اسپلش اسکرین --- */}
       {currentScreen === 'splash' && (
-        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }}>
-          <img src="/IMG_20260124_084929.JPG" style={{ width: '130px', borderRadius: '35px' }} className="blink" />
-          <h1 style={{ color: 'var(--green)', marginTop: '25px', letterSpacing:'4px' }}>GOSMART</h1>
+        <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', background:'var(--indigo)' }}>
+          <img src="/IMG_20260124_084929.JPG" className="blink" style={{ width: '150px', borderRadius: '40px', boxShadow:'0 0 50px rgba(63, 81, 181, 0.4)' }} />
+          <h1 style={{ color: 'var(--green)', marginTop: '30px', letterSpacing:'5px', fontSize:'32px' }}>GOSMART</h1>
+          <div style={{marginTop:'20px', color:'var(--text-muted)'}}>Loading Secure Modules...</div>
         </div>
       )}
 
-      {/* --- [SECTION 2] رجسٹریشن (سیکیورٹی لوازمات) --- */}
+      {/* --- [SECTION 2] تفصیلی رجسٹریشن (Security Requirements) --- */}
       {currentScreen === 'registration' && (
-        <div style={{ padding: '25px' }}>
-          <div style={{ textAlign: 'center', marginBottom: '30px' }}>
-            <img src="/IMG_20260124_084929.JPG" style={{ width: '80px', borderRadius: '20px' }} />
-            <h2 style={{ color: 'var(--green)', marginTop: '15px' }}>سیکیورٹی رجسٹریشن</h2>
+        <div style={{ padding: '30px 20px' }}>
+          <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+            <img src="/IMG_20260124_084929.JPG" style={{ width: '100px', borderRadius: '25px' }} />
+            <h2 style={{ color: 'var(--green)', marginTop: '20px' }}>سیکیورٹی ویریفیکیشن</h2>
+            <p style={{color:'var(--text-muted)', fontSize:'14px'}}>اپنا اکاؤنٹ منتخب کریں تاکہ ہم آپ کو تحفظ دے سکیں</p>
           </div>
-          <div style={{ display: 'flex', gap: '10px', marginBottom: '20px' }}>
-            <button onClick={() => setAppMode('rider')} style={{ flex: 1, padding: '15px', borderRadius: '15px', background: appMode === 'rider' ? 'var(--accent)' : 'var(--card-bg)', border: '1px solid var(--accent)', color: 'white' }}>رائیڈر</button>
-            <button onClick={() => setAppMode('driver')} style={{ flex: 1, padding: '15px', borderRadius: '15px', background: appMode === 'driver' ? 'var(--accent)' : 'var(--card-bg)', border: '1px solid var(--accent)', color: 'white' }}>ڈرائیور</button>
+
+          <div style={{ display: 'flex', gap: '15px', marginBottom: '25px' }}>
+            <button 
+              onClick={()=>setAppMode('rider')} 
+              style={{ flex: 1, padding: '18px', borderRadius: '15px', background: appMode==='rider'?'var(--accent)':'var(--card-bg)', border: '2px solid var(--accent)', color: 'white', fontWeight:'bold' }}
+            >رائیڈر (Rider)</button>
+            <button 
+              onClick={()=>setAppMode('driver')} 
+              style={{ flex: 1, padding: '18px', borderRadius: '15px', background: appMode==='driver'?'var(--accent)':'var(--card-bg)', border: '2px solid var(--accent)', color: 'white', fontWeight:'bold' }}
+            >ڈرائیور (Driver)</button>
           </div>
+
           <div className="indigo-card">
-            <div className="input-field"><User size={18} /><input placeholder="مکمل نام" /></div>
+            <h4 style={{marginBottom:'20px', color:'var(--accent)'}}>بنیادی معلومات</h4>
+            <div className="input-field"><User size={20}/><input placeholder="آپ کا مکمل قانونی نام" onChange={(e)=>setDriverName(e.target.value)} /></div>
+            
             {appMode === 'driver' && (
-              <>
-                <div className="input-field"><Shield size={18} /><input placeholder="CNIC نمبر" /></div>
-                <div className="input-field"><Car size={18} /><select><option>موٹر سائیکل</option><option>رکشہ</option><option>کار</option></select></div>
-              </>
+              <div style={{marginTop:'20px'}}>
+                <h4 style={{marginBottom:'20px', color:'var(--accent)'}}>گاڑی اور سیکیورٹی کوائف</h4>
+                <div className="input-field"><Shield size={20}/><input placeholder="شناختی کارڈ (CNIC) نمبر" onChange={(e)=>setCnic(e.target.value)} /></div>
+                <div className="input-field"><Car size={20}/><select onChange={(e)=>setSelectedVehicle(e.target.value)}><option value="bike">موٹر سائیکل</option><option value="rickshaw">رکشہ</option><option value="car">کار (Mini/AC)</option></select></div>
+                <div className="input-field"><Truck size={20}/><input placeholder="گاڑی کا نمبر (مثلاً LEC-2026)" onChange={(e)=>setVehicleNo(e.target.value)} /></div>
+                <div className="input-field"><MapPin size={20}/><input placeholder="گھر کا مکمل پتہ" onChange={(e)=>setHomeAddress(e.target.value)} /></div>
+              </div>
             )}
-            <div className="input-field"><AlertCircle size={18} color="var(--red)" /><input placeholder="ایمرجنسی رابطہ نمبر" /></div>
-            <button className="primary-btn" onClick={() => setCurrentScreen('home')}>محفوظ کریں</button>
+            
+            <div className="input-field"><AlertCircle size={20} color="var(--red)"/><input placeholder="ہنگامی رابطہ نمبر (SOS)" onChange={(e)=>setEmergencyPhone(e.target.value)} /></div>
+            
+            <div style={{fontSize:'12px', color:'var(--text-muted)', marginBottom:'20px', padding:'0 5px'}}>
+              * بٹن دبانے سے آپ ہماری سیکیورٹی پالیسی اور 1.5% کمیشن فیس سے اتفاق کرتے ہیں۔
+            </div>
+
+            <button className="primary-btn" onClick={()=>setCurrentScreen('home')}>رجسٹریشن مکمل کریں</button>
           </div>
         </div>
       )}
 
-      {/* --- [SECTION 3] ہوم اسکرین (Detailed) --- */}
+      {/* --- [SECTION 3] تفصیلی ہوم اسکرین (Rider Mode) --- */}
       {currentScreen === 'home' && (
         <div style={{ padding: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px' }}>
-            <Menu onClick={() => setIsMenuOpen(true)} style={{cursor:'pointer'}} />
-            <img src="/IMG_20260124_084929.JPG" style={{ width: '45px', borderRadius: '12px' }} />
-            <Bell size={24} />
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
+            <Menu onClick={()=>setIsMenuOpen(true)} style={{cursor:'pointer'}} size={28} />
+            <img src="/IMG_20260124_084929.JPG" style={{ width: '50px', borderRadius: '12px', boxShadow:'0 4px 10px rgba(0,0,0,0.3)' }} />
+            <div style={{position:'relative'}}>
+               <Bell size={28} />
+               <span style={{position:'absolute', top:0, right:0, background:'var(--red)', width:'10px', height:'10px', borderRadius:'50%'}}></span>
+            </div>
           </div>
 
-          {/* سروسز ایڈورٹائزمنٹ */}
-          <div className="indigo-card" style={{background: 'linear-gradient(135deg, #3f51b5, #1a1c2c)', padding:'20px', textAlign:'center', border:'none'}}>
-            <h4 style={{margin:0, color:'white'}}>ہماری خدمات</h4>
-            <p style={{margin:'8px 0 0', fontSize:'11px', color:'var(--green)', fontWeight:'bold'}}>ٹکٹس • سستی رائیڈز • ICC لائیو اسکور</p>
+          {/* سروسز اشتہارات (Interactive Ads) */}
+          <div className="indigo-card" style={{background:'linear-gradient(135deg, #3f51b5 0%, #1a1c2c 100%)', border:'none', padding:'25px'}}>
+             <h3 style={{margin:0, color:'white', fontSize:'20px'}}>GoSmart پریمیم سروسز</h3>
+             <p style={{fontSize:'12px', margin:'10px 0', color:'rgba(255,255,255,0.8)'}}>پاکستان کی پہلی سیکیور رائیڈ ایپ جہاں آپ کے سفر کے ساتھ آپ کی بچت بھی محفوظ ہے۔</p>
+             <div style={{display:'flex', gap:'10px', marginTop:'15px'}}>
+                <span style={{background:'rgba(255,255,255,0.1)', padding:'5px 10px', borderRadius:'8px', fontSize:'10px'}}>✓ سستی فلائٹس</span>
+                <span style={{background:'rgba(255,255,255,0.1)', padding:'5px 10px', borderRadius:'8px', fontSize:'10px'}}>✓ لائیو اسکورز</span>
+             </div>
           </div>
 
-          {/* نیوز ٹکر */}
+          {/* متحرک نیوز ٹکر */}
           <div className="news-ticker">
-            <p>تازہ ترین: پاکستان بمقابلہ انڈیا لائیو اسکور کے لیے مینو دیکھیں • دبئی اور سعودی عرب فلائٹس پر رعایت • سیکیورٹی کے لیے اپنی لوکیشن آن رکھیں • GoSmart آپ کا اعتماد...</p>
+            <p>
+               تازہ ترین اپڈیٹ: ICC چیمپئنز ٹرافی 2026 کے تمام میچز کے لائیو اسکورز اب GoSmart مینو میں دستیاب ہیں! • 
+               پی سی بی ٹکٹس کی بکنگ پر حاصل کریں 1.5% کیش بیک • 
+               سیکیورٹی الرٹ: سفر کے دوران اپنی لوکیشن ہمیشہ آن رکھیں • 
+               نئے ڈرائیورز کے لیے رجسٹریشن بالکل مفت ہے...
+            </p>
           </div>
 
-          {/* بکنگ انجن (4-Fare & Vehicle Select) */}
-          <div className="indigo-card">
-            <div style={{display:'flex', gap:'10px', marginBottom:'20px'}}>
-               {[{id:'bike', n:'بائیک', i:<Bike/>}, {id:'rickshaw', n:'رکشہ', i:<Truck/>}, {id:'car', n:'کار', i:<Car/>}].map(v => (
-                 <div key={v.id} onClick={() => setSelectedVehicle(v.id)} style={{flex:1, padding:'12px', borderRadius:'15px', background:selectedVehicle === v.id ? 'var(--accent)' : '#212339', border:'1px solid #3f4264', textAlign:'center', cursor:'pointer'}}>
-                    {v.i} <div style={{fontSize:'10px', marginTop:'5px'}}>{v.n}</div>
+          {/* بکنگ انجن (Detailed Selection) */}
+          <div className="indigo-card" style={{borderTop:'4px solid var(--green)'}}>
+            <h4 style={{marginBottom:'20px', display:'flex', alignItems:'center', gap:'10px'}}>
+               <Navigation size={18} color="var(--green)"/> سواری کا انتخاب کریں
+            </h4>
+            
+            <div style={{display:'flex', gap:'10px', marginBottom:'25px'}}>
+               {[
+                 {id:'bike', icon:<Bike size={24}/>, label:'بائیک'},
+                 {id:'rickshaw', icon:<Truck size={24}/>, label:'رکشہ'},
+                 {id:'car', icon:<Car size={24}/>, label:'کار'}
+               ].map(vehicle => (
+                 <div 
+                   key={vehicle.id} 
+                   onClick={()=>setSelectedVehicle(vehicle.id)} 
+                   style={{
+                     flex:1, padding:'15px 10px', borderRadius:'18px', 
+                     background:selectedVehicle===vehicle.id?'var(--accent)':'#212339', 
+                     textAlign:'center', border:selectedVehicle===vehicle.id?'2px solid var(--green)':'1px solid #3f4264',
+                     cursor:'pointer', transition:'0.3s'
+                   }}
+                 >
+                    {vehicle.icon}
+                    <div style={{fontSize:'11px', marginTop:'8px', fontWeight:'bold'}}>{vehicle.label}</div>
                  </div>
                ))}
             </div>
             
-            <div className="input-field"><Navigation size={18} color="var(--green)" /><input value="Current Location: Multan" readOnly /></div>
-            <div className="input-field"><MapPin size={18} color="var(--red)" /><input placeholder="منزل کہاں ہے؟" onChange={(e) => {if(e.target.value.length > 2) setFare(350);}} /></div>
+            <div className="input-field">
+              <MapPin size={20} color="var(--green)" />
+              <input value="آپ کی موجودہ جگہ: Multan, Pakistan" readOnly />
+            </div>
+            
+            <div className="input-field" style={{marginTop:'15px'}}>
+              <Search size={20} color="var(--red)" />
+              <input 
+                placeholder="منزل کا نام لکھیں (Destination)..." 
+                onChange={(e) => {
+                  setDestination(e.target.value);
+                  if(e.target.value.length > 3) setFare(450);
+                }} 
+              />
+            </div>
 
+            {/* 4-کرایہ لاجک (Detailed) */}
             {fare > 0 && (
-              <div style={{marginTop:'15px'}}>
-                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'10px'}}>
-                  {[{l:'سستا', p:350}, {l:'مناسب', p:400}, {l:'VIP', p:500}, {l:'اپنی آفر', p:330}].map((item, i) => (
-                    <div key={i} onClick={() => {setOffer(item.p); setSelectedFareIndex(i);}} style={{padding:'15px', borderRadius:'15px', background:selectedFareIndex === i ? 'var(--accent)' : 'rgba(255,255,255,0.05)', border:'1px solid #444', textAlign:'center', cursor:'pointer'}}>
-                       <small>{item.l}</small><h3>Rs.{item.p}</h3>
+              <div style={{marginTop:'25px', animation:'fadeIn 0.5s'}}>
+                <p style={{fontSize:'13px', color:'var(--text-muted)', textAlign:'center', marginBottom:'15px'}}>بہترین کرایہ منتخب کریں:</p>
+                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px'}}>
+                  {[
+                    {title:'سستا ترین', price:fare, info:'بچت کارڈ'},
+                    {title:'مناسب', price:fare + 60, info:'جلدی آمد'},
+                    {title:'V.I.P', price:fare + 180, info:'لگژری'},
+                    {title:'بولی (Bid)', price:offer || fare - 30, info:'آپ کی مرضی'}
+                  ].map((item, index) => (
+                    <div 
+                      key={index} 
+                      onClick={()=>{setOffer(item.price); setSelectedFareIndex(index);}}
+                      style={{
+                        padding:'18px 10px', borderRadius:'15px', 
+                        background:selectedFareIndex===index?'var(--accent)':'rgba(255,255,255,0.03)',
+                        border:selectedFareIndex===index?'2px solid var(--green)':'1px solid #3f4264',
+                        textAlign:'center', cursor:'pointer'
+                      }}
+                    >
+                       <div style={{fontSize:'10px', opacity:0.7}}>{item.title}</div>
+                       <h3 style={{margin:'5px 0'}}>Rs. {item.price}</h3>
+                       <div style={{fontSize:'9px', color:'var(--green)'}}>{item.info}</div>
                     </div>
                   ))}
                 </div>
-                <button className="primary-btn" style={{marginTop:'20px'}} onClick={() => setCurrentScreen('active')}>رائیڈ کی درخواست بھیجیں</button>
+                <button className="primary-btn" style={{marginTop:'25px'}} onClick={()=>setCurrentScreen('active')}>
+                   رائیڈ کی درخواست بھیجیں
+                </button>
               </div>
             )}
           </div>
-        </div>
-      )}
-
-      {/* --- [SECTION 4] ٹکٹس ہب (Global Access) --- */}
-      {currentScreen === 'tickets' && (
-        <div style={{ padding: '20px' }}>
-          <div style={{display:'flex', alignItems:'center', gap:'15px', marginBottom:'25px'}}>
-             <ArrowLeft onClick={() => setCurrentScreen('home')} style={{cursor:'pointer'}} />
-             <h2 style={{margin:0}}>گلوبل ٹکٹنگ</h2>
-          </div>
-          <div className="indigo-card" onClick={() => setExternalUrl('https://pcb.bookme.pk')} style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
-             <span>PCB Official (Cricket)</span> <ArrowLeft style={{transform:'rotate(180deg)'}} size={18} />
-          </div>
-          <div className="indigo-card" onClick={() => setExternalUrl('https://www.emirates.com')}>
-             <span>Emirates Airline</span>
-          </div>
-          <div className="indigo-card" onClick={() => setExternalUrl('https://www.daewoo.com.pk')}>
-             <span>Daewoo Express</span>
-          </div>
-          <p style={{textAlign:'center', fontSize:'11px', color:'var(--green)'}}>ہر بکنگ پر 1.5% کمیشن ریوارڈ پائیں</p>
-        </div>
-      )}
-
-      {/* --- [SECTION 5] ایڈمن پینل --- */}
-      {currentScreen === 'admin' && (
-        <div style={{ padding: '20px' }}>
-          <h2 onClick={() => setCurrentScreen('home')}><ArrowLeft/> ایڈمن ڈیش بورڈ</h2>
-          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'15px', marginTop:'20px'}}>
-             <div className="indigo-card" style={{borderLeft:'5px solid var(--green)'}}><small>ٹوٹل سیلز</small><h3>Rs. 1.2M</h3></div>
-             <div className="indigo-card" style={{borderLeft:'5px solid #fbbf24'}}><small>کمیشن (1.5%)</small><h3>Rs. 18,000</h3></div>
-          </div>
-          <div className="indigo-card">
-             <h4>ڈرائیور رجسٹریشن ریکوئسٹ</h4>
-             <div style={{background:'#1a1c2c', padding:'10px', borderRadius:'10px', display:'flex', justifyContent:'space-between'}}>
-                <span>احمد علی (بائیک)</span>
-                <CheckCircle color="var(--green)" />
+          
+          {/* کوئک لنکس (Bottom Grid) */}
+          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'15px', marginTop:'10px'}}>
+             <div className="indigo-card" style={{textAlign:'center', padding:'25px'}} onClick={()=>setCurrentScreen('tickets')}>
+                <Ticket color="var(--green)" size={32} />
+                <h4 style={{margin:'10px 0 0'}}>ٹکٹس</h4>
+             </div>
+             <div className="indigo-card" style={{textAlign:'center', padding:'25px'}} onClick={()=>setExternalUrl('https://pcb.bookme.pk')}>
+                <Trophy color="#fbbf24" size={32} />
+                <h4 style={{margin:'10px 0 0'}}>PCB لائیو</h4>
              </div>
           </div>
+        </div>
+      )}
+
+      {/* --- [SECTION 4] تفصیلی گلوبل ٹکٹنگ (Full List) --- */}
+      {currentScreen === 'tickets' && (
+        <div style={{ padding: '25px' }}>
+          <div style={{display:'flex', alignItems:'center', gap:'15px', marginBottom:'30px'}}>
+             <ArrowLeft onClick={()=>setCurrentScreen('home')} style={{cursor:'pointer'}} />
+             <h2 style={{margin:0, color:'var(--green)'}}>گلوبل ٹکٹ پورٹل</h2>
+          </div>
+
+          <div className="indigo-card" style={{border:'1px dashed var(--green)', textAlign:'center', background:'rgba(34,197,94,0.05)'}}>
+             <small style={{color:'var(--green)', fontWeight:'bold'}}>مبارک ہو! ہر بکنگ پر 1.5% ایڈمن کمیشن ریوارڈ آپ کے اکاؤنٹ میں شامل ہوگا</small>
+          </div>
+
+          {/* کرکٹ بورڈز لسٹ */}
+          <h4 style={{color:'var(--text-muted)', marginBottom:'15px', marginTop:'20px'}}>کرکٹ بورڈز اور ایونٹس</h4>
+          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'12px'}}>
+             {[
+               {name:'PCB (Pakistan)', url:'https://pcb.bookme.pk'},
+               {name:'PSL 2026', url:'https://www.paltan.pk'},
+               {name:'BPL (Bangladesh)', url:'https://www.shohoz.com'},
+               {name:'ICC Champions', url:'https://tickets.t20worldcup.com'},
+               {name:'IL T20 (UAE)', url:'https://tickets.ilt20.ae'},
+               {name:'BCCI (India)', url:'https://www.bcci.tv/tickets'}
+             ].map((board, i) => (
+               <div key={i} className="indigo-card" style={{margin:0, padding:'15px', textAlign:'center'}} onClick={()=>setExternalUrl(board.url)}>
+                  <Trophy size={20} color="#fbbf24" style={{marginBottom:'8px'}} />
+                  <div style={{fontSize:'11px', fontWeight:'bold'}}>{board.name}</div>
+               </div>
+             ))}
+          </div>
+
+          {/* ٹریول اور ایئر لائنز لسٹ */}
+          <h4 style={{color:'var(--text-muted)', margin:'30px 0 15px'}}>ایئر لائنز اور ٹرانسپورٹ</h4>
+          {[
+            {name:'PIA - Pakistan International', url:'https://www.piac.com.pk'},
+            {name:'Emirates - UAE Luxury', url:'https://www.emirates.com'},
+            {name:'Air Arabia - Low Cost', url:'https://www.airarabia.com'},
+            {name:'Flynas - Saudi Arabia', url:'https://www.flynas.com'},
+            {name:'Biman - Bangladesh', url:'https://www.biman-airlines.com'},
+            {name:'Daewoo Express Bus', url:'https://www.daewoo.com.pk'},
+            {name:'Saptco - Saudi Transport', url:'https://www.saptco.com.sa'}
+          ].map((travel, i) => (
+            <div key={i} className="indigo-card" style={{display:'flex', justifyContent:'space-between', alignItems:'center', padding:'20px'}} onClick={()=>setExternalUrl(travel.url)}>
+               <div style={{display:'flex', alignItems:'center', gap:'15px'}}>
+                  {travel.name.includes('Bus') ? <Truck size={20} color="var(--green)"/> : <Plane size={20} color="var(--accent)"/>}
+                  <span style={{fontSize:'14px'}}>{travel.name}</span>
+               </div>
+               <ArrowLeft style={{transform:'rotate(180deg)'}} size={16} color="var(--text-muted)"/>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* --- [SECTION 5] تفصیلی ایڈمن پینل (Commission Control) --- */}
+      {currentScreen === 'admin' && (
+        <div style={{ padding: '25px' }}>
+          <div style={{display:'flex', alignItems:'center', gap:'15px', marginBottom:'30px'}}>
+             <ArrowLeft onClick={()=>setCurrentScreen('home')} style={{cursor:'pointer'}} />
+             <h2 style={{margin:0}}>ایڈمن کنٹرول ٹاور</h2>
+          </div>
+
+          <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'15px'}}>
+             <div className="indigo-card" style={{borderLeft:'5px solid var(--green)', margin:0}}>
+                <small style={{color:'var(--text-muted)'}}>کل سیلز (Gross)</small>
+                <h2 style={{margin:'10px 0', fontSize:'24px'}}>Rs. 1.25M</h2>
+             </div>
+             <div className="indigo-card" style={{borderLeft:'5px solid #fbbf24', margin:0}}>
+                <small style={{color:'var(--text-muted)'}}>کمیشن (1.5%)</small>
+                <h2 style={{margin:'10px 0', color:'#fbbf24', fontSize:'24px'}}>Rs. 18,750</h2>
+             </div>
+          </div>
+
+          <div className="indigo-card" style={{marginTop:'25px'}}>
+             <h4 style={{marginBottom:'20px'}}>ڈرائیور ویریفیکیشن لسٹ</h4>
+             {[
+               {name:'احمد علی', vehicle:'بائیک', status:'Pending'},
+               {name:'محمد ساجد', vehicle:'کار', status:'Review'}
+             ].map((d, i) => (
+               <div key={i} style={{background:'#1a1c2c', padding:'15px', borderRadius:'15px', marginBottom:'10px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                  <div>
+                    <div style={{fontWeight:'bold'}}>{d.name}</div>
+                    <small style={{color:'var(--text-muted)'}}>{d.vehicle}</small>
+                  </div>
+                  <div style={{display:'flex', gap:'8px'}}>
+                     <button style={{background:'var(--green)', border:'none', color:'white', padding:'8px 12px', borderRadius:'8px', fontSize:'11px'}}>Approve</button>
+                     <button style={{background:'var(--red)', border:'none', color:'white', padding:'8px 12px', borderRadius:'8px', fontSize:'11px'}}>Reject</button>
+                  </div>
+               </div>
+             ))}
+          </div>
+
+          <div className="indigo-card">
+             <h4>لائیو ٹکٹنگ ٹرانزیکشنز</h4>
+             <div style={{fontSize:'12px', overflowX:'auto'}}>
+                <table style={{width:'100%', borderCollapse:'collapse'}}>
+                   <thead>
+                      <tr style={{color:'var(--text-muted)', textAlign:'left', borderBottom:'1px solid #3f4264'}}>
+                         <th style={{padding:'10px'}}>سورس</th>
+                         <th style={{padding:'10px'}}>رقم</th>
+                         <th style={{padding:'10px'}}>منافع</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr style={{borderBottom:'1px solid #212339'}}>
+                         <td style={{padding:'10px'}}>PIA Tickets</td>
+                         <td style={{padding:'10px'}}>Rs. 85,000</td>
+                         <td style={{padding:'10px', color:'var(--green)'}}>Rs. 1,275</td>
+                      </tr>
+                      <tr>
+                         <td style={{padding:'10px'}}>PCB (Cricket)</td>
+                         <td style={{padding:'10px'}}>Rs. 2,000</td>
+                         <td style={{padding:'10px', color:'var(--green)'}}>Rs. 30</td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+          </div>
+        </div>
+      )}
+
+      {/* --- [SECTION 6] ایکٹیو رائیڈ (SOS & Monitor) --- */}
+      {currentScreen === 'active' && (
+        <div style={{height:'100vh', display:'flex', flexDirection:'column'}}>
+           <div style={{flex:1, background:'#1e2030', display:'flex', alignItems:'center', justifyContent:'center', position:'relative'}}>
+              <Map size={80} color="var(--accent)" className="blink" />
+              <div style={{position:'absolute', bottom:'20px', left:'20px', background:'var(--card-bg)', padding:'10px', borderRadius:'10px', fontSize:'12px'}}>
+                 Live Security Monitoring: Active
+              </div>
+           </div>
+           <div className="indigo-card" style={{margin:0, borderRadius:'30px 30px 0 0', padding:'30px'}}>
+              <div style={{display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+                 <div>
+                    <h3 style={{margin:0}}>ڈرائیور: علی رضا</h3>
+                    <p style={{margin:'5px 0', fontSize:'12px', color:'var(--text-muted)'}}>گاڑی نمبر: LEC-2026</p>
+                 </div>
+                 <div 
+                   className="blink" 
+                   style={{background:'var(--red)', padding:'15px', borderRadius:'50%', cursor:'pointer'}}
+                   onClick={()=>alert("SOS الرٹ: ایمرجنسی سروسز کو اطلاع دے دی گئی ہے!")}
+                 >
+                    <AlertCircle size={30} />
+                 </div>
+              </div>
+              <button className="primary-btn" style={{marginTop:'30px', background:'var(--red)'}} onClick={()=>setCurrentScreen('home')}>رائیڈ ختم کریں</button>
+           </div>
         </div>
       )}
     </div>
