@@ -171,9 +171,12 @@ export default function GoSmartApp() {
               <Activity color="var(--green)" size={20}/> <span>ICC لائیو اسکور</span>
            </div>
            
-           <div className="input-field" onClick={()=>{setCurrentScreen('home'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
-              <Smartphone size={20}/> <span>ہوم اسکرین</span>
-           </div>
+           <div className="input-field" onClick={() => {
+  setExternalUrl('https://www.google.com/search?q=live+cricket+score&igu=1'); 
+  setIsMenuOpen(false);
+}} style={{cursor:'pointer', border:'none'}}>
+  <Activity color="var(--green)" size={20}/> <span>کرکٹ لائیو اسکور (Google)</span>
+</div>
 
            <div className="input-field" onClick={()=>{setCurrentScreen('tickets'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
               <Ticket size={20}/> <span>گلوبل ٹکٹس بکنگ</span>
