@@ -15,7 +15,8 @@
     "@supabase/supabase-js": "latest",
     "lucide-react": "latest",
     "clsx": "latest",
-    "tailwind-merge": "latest"
+    "tailwind-merge": "latest",
+    "next-pwa": "^5.6.0"
   },
   "devDependencies": {
     "autoprefixer": "latest",
