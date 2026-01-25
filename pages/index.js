@@ -1,119 +1,168 @@
 import React, { useState, useEffect } from 'react';
 import Head from 'next/head';
 import { 
-  Navigation, MapPin, Phone, MessageSquare, AlertCircle, 
-  Ticket, CreditCard, History, User, Trophy, Plane, Menu, Bell, 
-  DollarSign, Car, Shield, Truck, Power, HelpCircle, X
+  Navigation, MapPin, Phone, MessageSquare, AlertCircle, Ticket, CreditCard, 
+  User, Trophy, Plane, Menu, Bell, Car, DollarSign, Shield, X, CheckCircle 
 } from 'lucide-react';
 
-export default function GoSmartApp() {
-  const [role, setRole] = useState('rider'); // 'rider' or 'driver'
+export default function GoSmartMasterApp() {
+  const [appMode, setAppMode] = useState('rider'); // rider or driver
   const [screen, setScreen] = useState('splash');
   const [isOnline, setIsOnline] = useState(false);
-  const [fareData, setFareData] = useState({ base: 0, offer: 0 });
+  const [ticketData, setTicketData] = useState(null);
+
+  // کرکٹ لنکس اور ڈیٹا
+  const cricketLeagues = [
+    { name: 'PSL 2026', url: 'https://www.psl-t20.com', icon: '🏏' },
+    { name: 'ICC Champions Trophy', url: 'https://www.icc-cricket.com', icon: '🏆' },
+    { name: 'PCB Official', url: 'https://www.pcb.com.pk', icon: '🇵🇰' }
+  ];
 
   useEffect(() => {
-    if (screen === 'splash') setTimeout(() => setScreen('home'), 2000);
+    if (screen === 'splash') setTimeout(() => setScreen('home'), 2500);
   }, [screen]);
 
-  // ریوز ایبل اسٹائلز (ٹکراؤ ختم کرنے کے لیے)
   const styles = (
     <style jsx global>{`
       :root { --indigo: #1a1c2c; --card: #282a44; --accent: #3f51b5; --green: #22c55e; --red: #ef4444; }
-      body { margin: 0; background: var(--indigo); color: white; font-family: sans-serif; }
-      .app-box { max-width: 450px; margin: 0 auto; min-height: 100vh; position: relative; }
-      .card { background: var(--card); border: 1px solid #3f4264; border-radius: 20px; padding: 20px; margin-bottom: 15px; }
-      .input-row { background: #212339; border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-      .input-row input { background: none; border: none; color: white; width: 100%; outline: none; }
-      .btn { border: none; padding: 15px; border-radius: 12px; width: 100%; font-weight: bold; cursor: pointer; color: white; }
-      .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 450px; background: #212339; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #3f4264; }
-      .blink { animation: pulse 1.5s infinite; }
-      @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } }
+      body { margin: 0; background: var(--indigo); color: white; font-family: 'Inter', sans-serif; overflow-x: hidden; }
+      .container { max-width: 450px; margin: 0 auto; min-height: 100vh; position: relative; padding-bottom: 80px; }
+      .card { background: var(--card); border: 1px solid #3f4264; border-radius: 20px; padding: 18px; margin-bottom: 15px; transition: 0.3s; }
+      .card:active { transform: scale(0.98); }
+      .input-box { background: #212339; border-radius: 12px; padding: 12px; display: flex; align-items: center; gap: 10px; margin-bottom: 10px; border: 1px solid #3f4264; }
+      .input-box input { background: none; border: none; color: white; width: 100%; outline: none; }
+      .btn-main { background: var(--accent); color: white; border: none; padding: 16px; border-radius: 15px; width: 100%; font-weight: bold; cursor: pointer; }
+      .nav-bar { position: fixed; bottom: 0; width: 100%; max-width: 450px; background: #212339; display: flex; justify-content: space-around; padding: 15px 0; border-top: 1px solid #3f4264; z-index: 100; }
+      .blink { animation: pulse 1s infinite; }
+      @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.5; } 100% { opacity: 1; } }
     `}</style>
   );
 
   if (screen === 'splash') return (
-    <div className="app-box" style={{display:'flex', flexDirection:'column', justifyContent:'center', alignItems:'center', height:'100vh'}}>
-      {styles} <img src="/IMG_20260124_084929.JPG" width="100" style={{borderRadius:20}} />
-      <h1 style={{color:'var(--green)'}}>GoSmart</h1>
+    <div className="container" style={{display:'flex', justifyContent:'center', alignItems:'center', height:'100vh'}}>
+      {styles}
+      <div style={{textAlign:'center'}}>
+        <img src="/IMG_20260124_084929.JPG" width="120" style={{borderRadius:'25px', boxShadow:'0 10px 30px rgba(0,0,0,0.5)'}} />
+        <h1 style={{color:'var(--green)', letterSpacing:'2px', marginTop:'20px'}}>GoSmart</h1>
+        <p style={{color:'#64748b'}}>Safety • Speed • Savings</p>
+      </div>
     </div>
   );
 
   return (
-    <div className="app-box">
+    <div className="container">
       {styles}
-      <Head><title>GoSmart - {role.toUpperCase()}</title></Head>
+      <Head><title>GoSmart - {appMode === 'rider' ? 'Rider' : 'Driver'}</title></Head>
 
-      {/* ہیڈر */}
-      <div style={{padding:'20px', display:'flex', justifyContent:'space-between'}}>
-        <Menu onClick={() => setRole(role === 'rider' ? 'driver' : 'rider')} />
-        <span style={{fontWeight:'bold'}}>{role === 'rider' ? 'Rider Mode' : 'Driver Mode'}</span>
+      {/* Header */}
+      <header style={{padding:'20px', display:'flex', justifyContent:'space-between', alignItems:'center'}}>
+        <Menu onClick={() => setAppMode(appMode === 'rider' ? 'driver' : 'rider')} />
+        <img src="/IMG_20260124_084929.JPG" width="40" style={{borderRadius:'8px'}} />
         <Bell />
-      </div>
+      </header>
 
-      {/* مین کنٹینٹ (سٹرکچر کے مطابق) */}
-      <div style={{padding:'0 20px'}}>
-        {role === 'rider' ? (
-          /* رائیڈر ہوم */
-          <div className="card">
-             <div className="input-row"><Navigation size={18} color="var(--green)" /><input value="Current Location" readOnly /></div>
-             <div className="input-row"><MapPin size={18} color="var(--red)" /><input placeholder="منزل لکھیں" onChange={(e) => setFareData({base:350, offer:350})} /></div>
-             {fareData.base > 0 && <button className="btn" style={{background:'var(--accent)'}} onClick={()=>setScreen('active')}>Confirm Ride</button>}
-          </div>
+      <main style={{padding:'0 20px'}}>
+        {appMode === 'rider' ? (
+          /* --- RIDER APP STRUCTURE --- */
+          <>
+            {screen === 'home' && (
+              <div>
+                <div className="card">
+                  <div className="input-row" style={{marginBottom:'15px'}}>
+                    <div className="input-box"><Navigation size={18} color="var(--green)"/><input value="My Current Location (Multan)" readOnly /></div>
+                    <div className="input-box"><MapPin size={18} color="var(--red)"/><input placeholder="Where to?" onChange={() => setTicketData({fare: 450})} /></div>
+                  </div>
+                  {ticketData && (
+                    <div style={{textAlign:'center'}}>
+                      <h2 style={{fontSize:'32px', margin:'10px 0'}}>Rs. 450</h2>
+                      <button className="btn-main" onClick={() => setScreen('active')}>Confirm Ride</button>
+                    </div>
+                  )}
+                </div>
+                
+                <h3 style={{margin:'20px 0 10px'}}>Cricket Leagues & Tickets</h3>
+                <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'10px'}}>
+                  {cricketLeagues.map((league, i) => (
+                    <div key={i} className="card" style={{textAlign:'center', padding:'15px'}} onClick={() => window.open(league.url, '_blank')}>
+                      <span style={{fontSize:'24px'}}>{league.icon}</span>
+                      <p style={{fontSize:'12px', margin:'5px 0 0'}}>{league.name}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {screen === 'active' && (
+              <div className="card blink" style={{border:'2px solid var(--accent)'}}>
+                <div style={{display:'flex', justifyContent:'space-between'}}>
+                  <div><b>Ali Khan</b><br/><small>Suzuki Alto (LEB-442)</small></div>
+                  <div style={{background:'var(--red)', padding:'10px', borderRadius:'50%'}}><AlertCircle /></div>
+                </div>
+                <div style={{display:'flex', gap:'10px', marginTop:'15px'}}>
+                  <button className="btn-main" style={{background:'var(--green)'}}><Phone size={18}/> Call</button>
+                  <button className="btn-main"><MessageSquare size={18}/> Chat</button>
+                </div>
+              </div>
+            )}
+          </>
         ) : (
-          /* ڈرائیور ہوم */
-          <div style={{textAlign:'center'}}>
-             <button className="btn" style={{background: isOnline ? 'var(--red)' : 'var(--green)'}} onClick={()=>setIsOnline(!isOnline)}>
-               {isOnline ? 'Go Offline' : 'Go Online'}
-             </button>
-             <div className="card" style={{marginTop:20, height:150, display:'flex', alignItems:'center', justifyContent:'center'}}>
-               {isOnline ? <p className="blink">صارفین کی تلاش جاری ہے...</p> : <p>آپ آف لائن ہیں</p>}
-             </div>
-          </div>
-        )}
-      </div>
+          /* --- DRIVER APP STRUCTURE --- */
+          <>
+            <div style={{textAlign:'center', marginBottom:'20px'}}>
+              <button className="btn-main" style={{background: isOnline ? 'var(--red)' : 'var(--green)'}} onClick={() => setIsOnline(!isOnline)}>
+                {isOnline ? 'Go Offline' : 'Go Online'}
+              </button>
+            </div>
+            
+            <div className="card" style={{height:'200px', display:'flex', flexDirection:'column', justifyContent:'center', textAlign:'center', borderStyle: isOnline ? 'solid' : 'dashed'}}>
+              {isOnline ? (
+                <div><div className="blink" style={{color:'var(--green)'}}>● Searching for Riders...</div></div>
+              ) : (
+                <p style={{color:'#64748b'}}>You are currently offline</p>
+              )}
+            </div>
 
-      {/* کامن نیویگیشن بار */}
-      <div className="nav-bar">
-        <div className="tab" onClick={()=>setScreen('home')}><Navigation size={20}/><small>Home</small></div>
-        <div className="tab" onClick={()=>setScreen('tickets')}><Ticket size={20}/><small>Tickets</small></div>
-        <div className="tab" onClick={()=>setScreen('earnings')}><DollarSign size={20}/><small>Wallet</small></div>
-        <div className="tab"><User size={20}/><small>Profile</small></div>
-      </div>
+            <div style={{display:'grid', gridTemplateColumns:'1fr 1fr', gap:'10px'}}>
+              <div className="card" style={{textAlign:'center'}}><DollarSign/><br/><small>Earnings</small></div>
+              <div className="card" style={{textAlign:'center'}}><Shield/><br/><small>Registration</small></div>
+            </div>
+          </>
+        )}
+      </main>
+
+      {/* Navigation Bar */}
+      <nav className="nav-bar">
+        <div onClick={() => setScreen('home')} style={{textAlign:'center'}}><Navigation size={22}/><br/><small style={{fontSize:'9px'}}>Home</small></div>
+        <div onClick={() => setScreen('home')} style={{textAlign:'center'}}><Ticket size={22}/><br/><small style={{fontSize:'9px'}}>Tickets</small></div>
+        <div style={{textAlign:'center'}}><CreditCard size={22}/><br/><small style={{fontSize:'9px'}}>Payments</small></div>
+        <div style={{textAlign:'center'}}><User size={22}/><br/><small style={{fontSize:'9px'}}>Profile</small></div>
+      </nav>
     </div>
   );
 }
 
-// GoSmart Unified Backend Logic
-const GoSmartCore = {
-    // 1. بزنس رولز (ٹکراؤ ختم: سواری پر 0%، ٹکٹ پر 1.5%)
-    calculatePricing: (type, amount) => {
-        const commissionRate = (type === 'ticket') ? 0.015 : 0;
-        const fee = amount * commissionRate;
-        return {
-            base: amount,
-            platformFee: fee,
-            total: amount + fee
-        };
-    },
-
-    // 2. سیکیورٹی (ڈیٹا ماسکنگ)
-    getPublicProfile: (driver) => {
-        const { cnic, address, emergencyContact, ...publicData } = driver;
-        return publicData; // حساس ڈیٹا ہذف کر دیا گیا
-    },
-
-    // 3. رجسٹریشن کنٹرول (ڈرائیور کے لیے لازمی، رائیڈر کے لیے گیسٹ)
-    verifyAccess: (user) => {
-        if (user.role === 'driver' && !user.isVerified) return false;
-        return true; // رائیڈر اور گیسٹ الاؤڈ ہیں
-    },
-
-    // 4. ایمرجنسی سروس (آف لائن ڈیٹیکشن)
-    emergencyMonitor: (driver) => {
-        if (driver.isOnline && (Date.now() - driver.lastPing > 120000)) {
-            // خودکار الرٹ بھیجیں
-            return "SEND_SMS_ALERT";
-        }
+// GoSmart Backend Core Service
+const GoSmartBackend = {
+  // رول: ٹکٹ پر 1.5% کمیشن، رائیڈ پر 0%
+  processPayment: (type, amount, userId) => {
+    const commission = type === 'ticket' ? amount * 0.015 : 0;
+    const total = amount + commission;
+    
+    // رول: ٹکٹ بائر اگر رجسٹرڈ نہیں تو آٹو رجسٹر کریں
+    if (type === 'ticket') {
+      this.autoRegister(userId);
     }
+    
+    return { 
+      transactionId: `GS-${Math.random().toString(36).toUpperCase().substr(2, 9)}`,
+      payable: total,
+      commissionAdded: commission
+    };
+  },
+
+  // ڈرائیور رجسٹریشن رول (Mandatory)
+  validateDriver: (docs) => {
+    if (!docs.cnic || !docs.license) return { status: 'rejected', msg: 'Documents Missing' };
+    return { status: 'approved' };
+  }
 };
