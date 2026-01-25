@@ -19,6 +19,26 @@ export default function GoSmartApp() {
   const [selectedVehicle, setSelectedVehicle] = useState('bike');
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [externalUrl, setExternalUrl] = useState(null);
+
+  // انسٹال بٹن کی لاجک
+  const [deferredPrompt, setDeferredPrompt] = useState(null);
+  const [showBtn, setShowBtn] = useState(false);
+
+  useEffect(() => {
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      setDeferredPrompt(e);
+      setShowBtn(true);
+    });
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!deferredPrompt) return;
+    deferredPrompt.prompt();
+    const { outcome } = await deferredPrompt.userChoice;
+    setDeferredPrompt(null);
+    setShowBtn(false);
+  };
   
   // سیکیورٹی ڈیٹا اسٹیٹس
   const [driverName, setDriverName] = useState("");
