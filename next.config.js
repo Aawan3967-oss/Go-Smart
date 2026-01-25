@@ -8,7 +8,15 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = {
   reactStrictMode: true,
-  // اگر آپ کی فائل میں پہلے سے کچھ اور کوڈ ہے تو وہ یہاں آئے گا
+  // یہ حصہ ٹربو پیک کو زبردستی بند کر کے ویب پیک چلائے گا
+  experimental: {
+    turbo: {
+      enabled: false
+    }
+  },
+  webpack: (config) => {
+    return config;
+  },
 };
 
 module.exports = withPWA(nextConfig);
