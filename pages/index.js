@@ -319,6 +319,27 @@ export default function GoSmartApp() {
             </div>
           </div>
 
+{showBtn && (
+  <div onClick={handleInstallClick} style={{ 
+    cursor:'pointer', 
+    background:'rgba(34,197,94,0.1)', 
+    border:'1px dashed var(--green)', 
+    borderRadius:'15px', 
+    padding:'15px', 
+    margin:'20px', 
+    display:'flex', 
+    alignItems:'center', 
+    gap:'12px',
+    animation: 'pulse 2s infinite'
+  }}>
+     <img src="/IMG_20260124_084929.JPG" style={{width:'40px', borderRadius:'10px'}} />
+     <div>
+        <div style={{fontSize:'14px', color:'white', fontWeight:'bold'}}>GoSmart ایپ انسٹال کریں</div>
+        <div style={{fontSize:'10px', color:'var(--green)'}}>بہترین رائیڈنگ تجربے کے لیے</div>
+     </div>
+  </div>
+)}
+
           {/* سروسز اشتہارات (Interactive Ads) */}
           <div className="indigo-card" style={{background:'linear-gradient(135deg, #3f51b5 0%, #1a1c2c 100%)', border:'none', padding:'25px'}}>
              <h3 style={{margin:0, color:'white', fontSize:'20px'}}>GoSmart پریمیم سروسز</h3>
