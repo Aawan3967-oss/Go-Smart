@@ -168,16 +168,7 @@ export default function GoSmartApp() {
         <div style={{display:'flex', flexDirection:'column', gap:'10px'}}>
            {/* مینو آئٹمز */}
            <div className="input-field" onClick={()=>{setExternalUrl('https://www.icc-cricket.com/live-scores'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
-              <Activity color="var(--green)" size={20}/> <span>{/* --- گوگل لائیو اسکور آپشن --- */}
-<div className="menu-link" 
-     onClick={() => {
-       setExternalUrl('https://www.google.com/search?q=live+cricket+score&igu=1'); 
-       setIsMenuOpen(false);
-     }} 
-     style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '15px 0', cursor: 'pointer', borderBottom: '1px solid #282a44' }}>
-   <Activity color="var(--green)" size={20} /> 
-   <strong style={{ color: 'white' }}>لائیو کرکٹ اسکور (Google)</strong>
-</div></span>
+              <Activity color="var(--green)" size={20}/> <span>ICC لائیو اسکور</span>
            </div>
            
            <div className="input-field" onClick={()=>{setCurrentScreen('home'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
