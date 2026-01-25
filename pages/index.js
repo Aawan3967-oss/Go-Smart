@@ -179,6 +179,31 @@ export default function GoSmartApp() {
               <Ticket size={20}/> <span>گلوبل ٹکٹس بکنگ</span>
            </div>
 
+{/* --- 1. ہر صفحے پر نظر آنے والی لائیو ہیڈ لائن بار --- */}
+<div style={{
+  background: 'linear-gradient(90deg, #1a1c2c, #3f51b5)',
+  padding: '8px',
+  borderBottom: '1px solid var(--green)',
+  position: 'sticky',
+  top: 0,
+  zIndex: 1000
+}}>
+  <marquee style={{color: 'white', fontSize: '12px'}}>
+    🏏 لائیو اسکور: PAK vs IND - پاکستان کو جیت کے لیے 20 رنز درکار • 📰 تازہ خبر: پیٹرول کی قیمتوں میں کمی کا امکان • 🏆 چیمپئنز ٹرافی شیڈول جاری...
+  </marquee>
+</div>
+
+{/* --- 2. سائیڈ مینو میں شیڈول اور لائیو اسکور کا آپشن --- */}
+<div className="menu-link" 
+     onClick={() => {
+       setExternalUrl('https://www.google.com/search?q=cricket+schedule+and+live+score&igu=1'); 
+       setIsMenuOpen(false);
+     }} 
+     style={{ display: 'flex', alignItems: 'center', gap: '15px', padding: '15px 0', cursor: 'pointer', borderBottom: '1px solid #282a44' }}>
+   <Trophy color="#fbbf24" size={20} /> 
+   <strong style={{ color: 'white' }}>کرکٹ شیڈول اور لائیو میچز</strong>
+</div>
+          
            <div className="input-field" onClick={()=>{setCurrentScreen('admin'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
               <DollarSign color="#fbbf24" size={20}/> <span>ایڈمن پینل کنٹرول</span>
            </div>
