@@ -6,14 +6,6 @@ const withPWA = require('next-pwa')({
   disable: process.env.NODE_ENV === 'development'
 });
 
-const nextConfig = {
-  reactStrictMode: true,
-  // یہ حصہ ٹربو پیک کو زبردستی بند کر کے ویب پیک چلائے گا
-  experimental: {
-    turbo: {
-      enabled: false
-    }
-  },
   webpack: (config) => {
     return config;
   },
