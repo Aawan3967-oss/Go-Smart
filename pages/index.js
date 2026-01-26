@@ -28,13 +28,6 @@ export default function GoSmartApp() {
   });
   const [adminPassword, setAdminPassword] = useState('');
   const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
-  const [adminData, setAdminData] = useState({
-    rideStatus: 'Active',
-    emergencyMode: false,
-    notification: 'Welcome to GoSmart!'
-  });
-  const [adminPassword, setAdminPassword] = useState('');
-  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   
   // انسٹال بٹن کی لاجک
   const [deferredPrompt, setDeferredPrompt] = useState(null);
