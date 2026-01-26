@@ -238,18 +238,7 @@ export default function GoSmartApp() {
     <span>ایمرجنسی لاگ آؤٹ</span>
 </div>
           
-           <div className="input-field" onClick={()=>{setCurrentScreen('admin'); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
-              <DollarSign color="#fbbf24" size={20}/> <span>ایڈمن پینل کنٹرول</span>
-           </div>
-
-           <div className="input-field" onClick={()=>{alert("سیکیورٹی ٹرمز: آپ کا ڈیٹا محفوظ ہے۔ 1.5% کمیشن لاگو ہوگا۔"); setIsMenuOpen(false)}} style={{cursor:'pointer', border:'none'}}>
-              <FileText size={20}/> <span>اصول و ضوابط (T&C)</span>
-           </div>
-
-           <div className="input-field" style={{cursor:'pointer', border:'none', marginTop:'20px'}}>
-              <Shield color="var(--red)" size={20}/> <span>ایمرجنسی لاگز</span>
-           </div>
-        </div>
+           
       </div>
 
       {/* --- [C] ان-ایپ براؤزر مع واپسی کنٹرول --- */}
