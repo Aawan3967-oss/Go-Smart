@@ -1,4 +1,3 @@
-/** @type {import('next').NextConfig} */
 const withPWA = require('next-pwa')({
   dest: 'public',
   register: true,
@@ -8,9 +7,7 @@ const withPWA = require('next-pwa')({
 
 const nextConfig = {
   reactStrictMode: true,
-  webpack: (config) => {
-    return config;
-  },
+  // یہاں ہم نے webpack ہٹا دیا ہے تاکہ Turbopack سے جھگڑا ختم ہو
 };
 
 module.exports = withPWA(nextConfig);
