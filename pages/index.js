@@ -163,12 +163,12 @@ export default function GoSmartApp() {
   return (
     <div className="mobile-frame">
       <Head>
-       <title>GoSmart Super App - Secure Rides & Tickets</title>
-       <link rel="manifest" href="/manifest.json" />
-       <meta name="theme-color" content="#1a1c2c" />
-       <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-       <link rel="apple-touch-icon" href="/IMG_20260124_084929.JPG" />
-    </Head>
+        <title>GoSmart Super App - Secure Rides & Tickets</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="theme-color" content="#1a1c2c" />
+        <link rel="apple-touch-icon" href="/IMG_20260124_084929.JPG" />
+      </Head>
       {globalStyles}
 
       {/* --- [A] مینیو اوورلے (Overlay) --- */}
