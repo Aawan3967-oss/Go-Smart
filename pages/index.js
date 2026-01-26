@@ -238,9 +238,6 @@ export default function GoSmartApp() {
     <span>ایمرجنسی لاگ آؤٹ</span>
 </div>
           
-           
-      </div>
-
       {/* --- [C] ان-ایپ براؤزر مع واپسی کنٹرول --- */}
       {externalUrl && (
         <div style={{position:'fixed', top:0, left:0, width:'100%', height:'100%', zIndex:3000, background:'white'}}>
@@ -652,6 +649,5 @@ export default function GoSmartApp() {
            </div>
         </div>
       )}
-    </div>
   );
 }
