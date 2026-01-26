@@ -20,6 +20,14 @@ export default function GoSmartApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [externalUrl, setExternalUrl] = useState(null);
 
+  // ایڈمن کنٹرول کی اسٹیٹس
+  const [adminData, setAdminData] = useState({
+    rideStatus: 'Active',
+    emergencyMode: false,
+    notification: 'Welcome to GoSmart!'
+  });
+  const [adminPassword, setAdminPassword] = useState('');
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
   const [adminData, setAdminData] = useState({
     rideStatus: 'Active',
     emergencyMode: false,
