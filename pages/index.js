@@ -20,6 +20,14 @@ export default function GoSmartApp() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [externalUrl, setExternalUrl] = useState(null);
 
+  const [adminData, setAdminData] = useState({
+    rideStatus: 'Active',
+    emergencyMode: false,
+    notification: 'Welcome to GoSmart!'
+  });
+  const [adminPassword, setAdminPassword] = useState('');
+  const [isAdminAuthenticated, setIsAdminAuthenticated] = useState(false);
+  
   // انسٹال بٹن کی لاجک
   const [deferredPrompt, setDeferredPrompt] = useState(null);
   const [showBtn, setShowBtn] = useState(false);
@@ -255,6 +263,57 @@ export default function GoSmartApp() {
             style={{width:'100%', height:'calc(100% - 60px)', border:'none'}}
             title="External Content"
           ></iframe>
+        </div>
+      )}
+{/* --- ایڈمن پینل اسکرین --- */}
+      {currentScreen === 'admin' && (
+        <div style={{ padding: '20px', color: 'white', background: '#1a1c2c', minHeight: '100vh', direction: 'rtl', position: 'fixed', inset: 0, zIndex: 5000, overflowY: 'auto' }}>
+          <div style={{ display: 'flex', alignItems: 'center', marginBottom: '20px', gap: '15px' }}>
+            <ArrowLeft size={24} onClick={() => {setCurrentScreen('home'); setIsAdminAuthenticated(false);}} style={{ cursor: 'pointer' }} />
+            <h2 style={{ fontSize: '1.2rem' }}>ایڈمن کنٹرول سینٹر</h2>
+          </div>
+
+          {!isAdminAuthenticated ? (
+            <div style={{ background: '#252945', padding: '25px', borderRadius: '15px', textAlign: 'center', marginTop: '20px' }}>
+              <Lock size={45} color="#fbbf24" style={{ marginBottom: '15px' }} />
+              <h3 style={{ marginBottom: '10px' }}>سیکیورٹی لاک</h3>
+              <p style={{ fontSize: '0.9rem', color: '#ccc' }}>ایڈمن پینل تک رسائی کے لیے پاس ورڈ درج کریں</p>
+              <input 
+                type="password" 
+                placeholder="پاس ورڈ درج کریں" 
+                onChange={(e) => setAdminPassword(e.target.value)}
+                style={{ width: '100%', padding: '12px', margin: '20px 0', borderRadius: '10px', border: '1px solid #444', background: '#1a1c2c', color: 'white', textAlign: 'center' }} 
+              />
+              <button 
+                onClick={() => adminPassword === '1234' ? setIsAdminAuthenticated(true) : alert('غلط پاس ورڈ! دوبارہ کوشش کریں۔')}
+                style={{ width: '100%', background: '#fbbf24', color: 'black', border: 'none', padding: '14px', borderRadius: '10px', fontWeight: 'bold', fontSize: '1rem', cursor: 'pointer' }}>
+                لاگ ان کریں
+              </button>
+            </div>
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+              <div style={{ background: '#252945', padding: '20px', borderRadius: '15px', border: '1px solid #3d426a' }}>
+                <p style={{ marginBottom: '12px', fontSize: '1rem' }}>سروس کی موجودہ حالت: <strong style={{ color: adminData.rideStatus === 'Active' ? '#22c55e' : '#fbbf24' }}>{adminData.rideStatus}</strong></p>
+                <button onClick={() => setAdminData({...adminData, rideStatus: adminData.rideStatus === 'Active' ? 'Maintenance' : 'Active'})} 
+                        style={{ background: '#444', color: 'white', border: 'none', padding: '10px 20px', borderRadius: '8px', cursor: 'pointer', fontSize: '0.9rem' }}>
+                  اسٹیٹس تبدیل کریں
+                </button>
+              </div>
+              
+              <div style={{ background: '#252945', padding: '20px', borderRadius: '15px', border: '1px solid #3d426a' }}>
+                <p style={{ marginBottom: '12px', fontSize: '1rem' }}>ایمرجنسی الرٹ سسٹم: <strong style={{ color: adminData.emergencyMode ? '#ef4444' : '#22c55e' }}>{adminData.emergencyMode ? 'آن ہے' : 'آف ہے'}</strong></p>
+                <button onClick={() => setAdminData({...adminData, emergencyMode: !adminData.emergencyMode})} 
+                        style={{ width: '100%', background: adminData.emergencyMode ? '#ef4444' : '#22c55e', color: 'white', border: 'none', padding: '12px', borderRadius: '8px', fontWeight: 'bold', cursor: 'pointer' }}>
+                  {adminData.emergencyMode ? 'ایمرجنسی الرٹ بند کریں' : 'ایمرجنسی الرٹ جاری کریں'}
+                </button>
+              </div>
+
+              <button onClick={() => setIsAdminAuthenticated(false)} 
+                      style={{ marginTop: '20px', background: 'transparent', color: '#aaa', border: '1px solid #444', padding: '10px', borderRadius: '8px' }}>
+                پینل لاک کریں
+              </button>
+            </div>
+          )}
         </div>
       )}
 
