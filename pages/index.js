@@ -380,47 +380,58 @@ export default function GoSmartApp() {
         </div>
       )}
 
-      {/* --- [SECTION 3] تفصیلی ہوم اسکرین (Rider Mode) --- */}
-      {currentScreen === 'home' && !externalUrl && (
-        <div style={{ animation: 'fadeIn 0.5s' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '15px', background: 'var(--indigo)' }}>
-            <Menu onClick={() => setIsMenuOpen(true)} style={{ cursor: 'pointer' }} size={28} />
-            <img src="/IMG_20260124_084929.JPG" style={{ width: '50px', borderRadius: '12px' }} />
-            <Bell size={28} />
-          </div>
+{currentScreen === 'home' && !externalUrl && (
+  <div style={{ animation: 'fadeIn 0.5s' }}>
+    <style jsx>{`
+      .triangle-grid-new {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        height: calc(100vh - 120px);
+        width: 100%;
+      }
+      .t-cell { position: relative; display: flex; align-items: center; justify-content: center; cursor: pointer; }
+      .t-1 { clip-path: polygon(0 0, 100% 0, 0 100%); background: linear-gradient(135deg, var(--accent), #1a1c2c); }
+      .t-2 { clip-path: polygon(0 0, 100% 0, 100% 100%); background: linear-gradient(225deg, var(--green), #1a1c2c); }
+      .t-3 { clip-path: polygon(0 0, 0 100%, 100% 100%); background: linear-gradient(45deg, #fbbf24, #1a1c2c); }
+      .t-4 { clip-path: polygon(100% 0, 100% 100%, 0 100%); background: linear-gradient(315deg, var(--red), #1a1c2c); }
+      .t-content { text-align: center; color: white; z-index: 10; }
+    `}</style>
 
-          <div className="triangle-grid-new">
-            {/* 1. لوگو */}
-            <div className="t-cell t-1" onClick={() => alert("GoSmart Active")}>
-              <div className="t-content" style={{ transform: 'translate(-10%, -15%)' }}>
-                <img src="/IMG_20260124_084929.JPG" style={{ width: '65px', borderRadius: '15px' }} />
-                <h3>GOSMART</h3>
-              </div>
-            </div>
-            {/* 2. رائیڈ */}
-            <div className="t-cell t-2" onClick={() => setAppMode('rider')}>
-              <div className="t-content" style={{ transform: 'translate(10%, -15%)' }}>
-                <Car size={35} />
-                <h3>رائیڈ (Ride)</h3>
-              </div>
-            </div>
-            {/* 3. سیل سسٹم */}
-            <div className="t-cell t-3" onClick={() => setCurrentScreen('tickets')}>
-              <div className="t-content" style={{ transform: 'translate(-10%, 15%)' }}>
-                <DollarSign size={35} />
-                <h3>سیل سسٹم</h3>
-              </div>
-            </div>
-            {/* 4. فوڈ ڈلیوری */}
-            <div className="t-cell t-4" onClick={() => alert("جلد آ رہا ہے")}>
-              <div className="t-content" style={{ transform: 'translate(10%, 15%)' }}>
-                <Truck size={35} />
-                <h3>فوڈ ڈلیوری</h3>
-              </div>
-            </div>
-          </div>
+    <div style={{ display: 'flex', justifyContent: 'space-between', padding: '15px' }}>
+      <Menu onClick={() => setIsMenuOpen(true)} style={{ cursor: 'pointer' }} size={28} />
+      <img src="/IMG_20260124_084929.JPG" style={{ width: '50px', borderRadius: '12px' }} />
+      <Bell size={28} />
+    </div>
+
+    <div className="triangle-grid-new">
+      <div className="t-cell t-1" onClick={() => alert("GoSmart Active")}>
+        <div className="t-content" style={{ transform: 'translate(-10%, -15%)' }}>
+          <img src="/IMG_20260124_084929.JPG" style={{ width: '65px', borderRadius: '12px' }} />
+          <h3 style={{fontSize:'12px'}}>GOSMART</h3>
         </div>
-      )}
+      </div>
+      <div className="t-cell t-2" onClick={() => setAppMode('rider')}>
+        <div className="t-content" style={{ transform: 'translate(10%, -15%)' }}>
+          <Car size={35} />
+          <h3>رائیڈ (Ride)</h3>
+        </div>
+      </div>
+      <div className="t-cell t-3" onClick={() => setCurrentScreen('tickets')}>
+        <div className="t-content" style={{ transform: 'translate(-10%, 15%)' }}>
+          <DollarSign size={35} />
+          <h3>سیل سسٹم</h3>
+        </div>
+      </div>
+      <div className="t-cell t-4" onClick={() => alert("Coming Soon")}>
+        <div className="t-content" style={{ transform: 'translate(10%, 15%)' }}>
+          <Truck size={35} />
+          <h3>فوڈ ڈلیوری</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+)}
           {/* سروسز اشتہارات (Interactive Ads) */}
           <div className="indigo-card" style={{background:'linear-gradient(135deg, #3f51b5 0%, #1a1c2c 100%)', border:'none', padding:'25px'}}>
              <h3 style={{margin:0, color:'white', fontSize:'20px'}}>GoSmart پریمیم سروسز</h3>
