@@ -165,6 +165,28 @@ export default function GoSmartApp() {
         box-shadow: 15px 0 50px rgba(0,0,0,0.8); 
       }
       .blink { animation: pulse 2s infinite; }
+      .triangle-grid-new {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        height: calc(100vh - 120px);
+        width: 100%;
+        background: var(--indigo);
+      }
+      .t-cell {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: 0.3s;
+      }
+      .t-1 { clip-path: polygon(0 0, 100% 0, 0 100%); background: linear-gradient(135deg, var(--accent), #1a1c2c); }
+      .t-2 { clip-path: polygon(0 0, 100% 0, 100% 100%); background: linear-gradient(225deg, var(--green), #1a1c2c); }
+      .t-3 { clip-path: polygon(0 0, 0 100%, 100% 100%); background: linear-gradient(45deg, #fbbf24, #1a1c2c); }
+      .t-4 { clip-path: polygon(100% 0, 100% 100%, 0 100%); background: linear-gradient(315deg, var(--red), #1a1c2c); }
+      .t-content { text-align: center; color: white; z-index: 10; }
+      .t-content h3 { font-size: 14px; margin-top: 5px; font-weight: bold; }
       @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
     `}</style>
   );
