@@ -359,38 +359,46 @@ export default function GoSmartApp() {
       )}
 
       {/* --- [SECTION 3] تفصیلی ہوم اسکرین (Rider Mode) --- */}
-      {currentScreen === 'home' && (
-        <div style={{ padding: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '25px' }}>
-            <Menu onClick={()=>setIsMenuOpen(true)} style={{cursor:'pointer'}} size={28} />
-            <img src="/IMG_20260124_084929.JPG" style={{ width: '50px', borderRadius: '12px', boxShadow:'0 4px 10px rgba(0,0,0,0.3)' }} />
-            <div style={{position:'relative'}}>
-               <Bell size={28} />
-               <span style={{position:'absolute', top:0, right:0, background:'var(--red)', width:'10px', height:'10px', borderRadius:'50%'}}></span>
-            </div>
+      {currentScreen === 'home' && !externalUrl && (
+        <div style={{ animation: 'fadeIn 0.5s' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', padding: '15px', background: 'var(--indigo)' }}>
+            <Menu onClick={() => setIsMenuOpen(true)} style={{ cursor: 'pointer' }} size={28} />
+            <img src="/IMG_20260124_084929.JPG" style={{ width: '50px', borderRadius: '12px' }} />
+            <Bell size={28} />
           </div>
 
-{showBtn && (
-  <div onClick={handleInstallClick} style={{ 
-    cursor:'pointer', 
-    background:'rgba(34,197,94,0.1)', 
-    border:'1px dashed var(--green)', 
-    borderRadius:'15px', 
-    padding:'15px', 
-    margin:'20px', 
-    display:'flex', 
-    alignItems:'center', 
-    gap:'12px',
-    animation: 'pulse 2s infinite'
-  }}>
-     <img src="/IMG_20260124_084929.JPG" style={{width:'40px', borderRadius:'10px'}} />
-     <div>
-        <div style={{fontSize:'14px', color:'white', fontWeight:'bold'}}>GoSmart ایپ انسٹال کریں</div>
-        <div style={{fontSize:'10px', color:'var(--green)'}}>بہترین رائیڈنگ تجربے کے لیے</div>
-     </div>
-  </div>
-)}
-
+          <div className="triangle-grid-new">
+            {/* 1. لوگو */}
+            <div className="t-cell t-1" onClick={() => alert("GoSmart Active")}>
+              <div className="t-content" style={{ transform: 'translate(-10%, -15%)' }}>
+                <img src="/IMG_20260124_084929.JPG" style={{ width: '65px', borderRadius: '15px' }} />
+                <h3>GOSMART</h3>
+              </div>
+            </div>
+            {/* 2. رائیڈ */}
+            <div className="t-cell t-2" onClick={() => setAppMode('rider')}>
+              <div className="t-content" style={{ transform: 'translate(10%, -15%)' }}>
+                <Car size={35} />
+                <h3>رائیڈ (Ride)</h3>
+              </div>
+            </div>
+            {/* 3. سیل سسٹم */}
+            <div className="t-cell t-3" onClick={() => setCurrentScreen('tickets')}>
+              <div className="t-content" style={{ transform: 'translate(-10%, 15%)' }}>
+                <DollarSign size={35} />
+                <h3>سیل سسٹم</h3>
+              </div>
+            </div>
+            {/* 4. فوڈ ڈلیوری */}
+            <div className="t-cell t-4" onClick={() => alert("جلد آ رہا ہے")}>
+              <div className="t-content" style={{ transform: 'translate(10%, 15%)' }}>
+                <Truck size={35} />
+                <h3>فوڈ ڈلیوری</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
           {/* سروسز اشتہارات (Interactive Ads) */}
           <div className="indigo-card" style={{background:'linear-gradient(135deg, #3f51b5 0%, #1a1c2c 100%)', border:'none', padding:'25px'}}>
              <h3 style={{margin:0, color:'white', fontSize:'20px'}}>GoSmart پریمیم سروسز</h3>
